@@ -1,16 +1,32 @@
 .navbar {
     background-color: #ffe926;
-    height: 100px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar .logo {
+    height:80px;
+}
+
+.navbar .nav-buttons {
     display: flex;
     align-items: center;
 }
 
-.iniciar-sesion {
-    margin-left: auto;
-    margin-right: 10px;
+.navbar .iniciar-sesion {
+    margin-right: 20px;
+    margin-top: 20px;
 }
 
-.logo {
-    height: 85px;
-    margin-right: auto;
+@media (max-width: 600px) {
+    .navbar .logo {
+        height: 50px;
+    }
+    .navbar .iniciar-sesion {
+        font-size: 14px;
+        margin-right: 15px;
+        margin-top: 20px;
+    }
 }
