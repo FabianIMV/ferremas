@@ -1,0 +1,10 @@
+.navbar {
+    background-color: #ffe926;
+    height: 50px;
+    display: flex;
+}
+
+.iniciar-sesion {
+    margin-left: auto;
+    margin-right: 10px;
+}
