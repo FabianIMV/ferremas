@@ -23,7 +23,6 @@ const Signup = () => {
     const response = await fetch('https://dpav7rflu36avi7oosd4i5gb5q0hyfgp.lambda-url.us-east-1.on.aws/signup', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             'x-api-key': 'test_api_key'
         },
         body: JSON.stringify(data), // data es tu objeto con los datos a enviar
