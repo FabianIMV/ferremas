@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -9,7 +10,14 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [message, setMessage] = useState(''); // Añade este estado para manejar el mensaje
+    const [message, setMessage] = useState('');
+
+    const poolData = {
+        UserPoolId: 'us-east-1_UIO4gNUY8',
+        ClientId: '3h1acnaqqioq9kf08d6t0tico1'
+    };
+
+    const userPool = new CognitoUserPool(poolData);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -18,42 +26,15 @@ const Signup = () => {
             return;
         }
 
-        const data = {
-            username: username,
-            password: password,
-            email: email
-        };
-
-        let response;
-        try {
-            response = await fetch('https://dpav7rflu36avi7oosd4i5gb5q0hyfgp.lambda-url.us-east-1.on.aws/signup', {
-                method: 'POST',
-                headers: {
-                    'x-api-key': 'test_api_key'
-                },
-                body: JSON.stringify(data), // data es tu objeto con los datos a enviar
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (data.message) {
-                    setMessage(data.message); // Establece el mensaje si la respuesta contiene uno
-                }
-            });
-        } catch (error) {
-            console.error('Error:', error);
-            if (error.message.includes('InvalidPasswordException')) {
-                setErrorMessage('La contraseña debe contener al menos un carácter en mayúscula.');
+        userPool.signUp(username, password, [{ Name: 'email', Value: email }], null, (err, result) => {
+            if (err) {
+                console.error(err);
+                setErrorMessage(err.message || 'Error al registrar usuario.');
+                return;
             }
-            return;
-        }
-
-        if (response && response.ok) {
-            console.log('Usuario registrado con éxito.');
+            setMessage('Usuario registrado con éxito.');
             navigate(`/Bienvenido/${username}`);
-        } else {
-            console.log('Error al registrar usuario.')
-        }
+        });
     };
 
     return (
@@ -81,7 +62,7 @@ const Signup = () => {
             </form>
         </div>
         {errorMessage && <p>{errorMessage}</p>}
-        {message && <p>{message}</p>} {/* Muestra el mensaje cuando esté establecido */}
+        {message && <p>{message}</p>}
         </div>
     );
 }
