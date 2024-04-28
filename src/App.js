@@ -9,7 +9,7 @@ import Welcome from './components/Welcome/Welcome';
 import Cart from './components/Cart/Cart';
 import { AuthProvider } from './AuthContext';
 import Items from './components/Items/Items';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
