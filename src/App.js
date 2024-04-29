@@ -9,8 +9,8 @@ import Cart from './components/Cart/Cart';
 import { AuthProvider, AuthContext } from './AuthContext';
 import Items from './components/Items/Items';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ProductTable from './ProductTable';
-import { searchProducts } from './dynamodb'; // Importa la función searchProducts de dynamodb.js
+import ProductTable from './components/ProductTable/ProductTable';
+import { searchProducts } from './dynamodb';
 
 function App() {
   return (
@@ -35,6 +35,7 @@ function Home() {
   const { isAuthenticated, username } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [searchMessage, setSearchMessage] = useState('');
+  const [searched, setSearched] = useState(false);
 
   const handleSearch = async (event) => {
     event.preventDefault();
@@ -47,24 +48,29 @@ function Home() {
       setSearchMessage('');
     }
     setProducts(results);
+    setSearched(true);
   };
 
   return (
-    <div className="home-container">
-      {isAuthenticated && <h2>Bienvenido {username}, qué quieres comprar?</h2>}
-      <div className="search-bar">
-        <form onSubmit={handleSearch}>
-          <div className="input-group mb-3">
-            <input type="text" name="search" className="form-control" placeholder="Buscar productos..." aria-label="Buscar" aria-describedby="button-addon2"></input>
-            <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+    <>
+      {isAuthenticated && !searched && <h2 className="welcome-message">Bienvenido {username}, qué quieres comprar?</h2>}
+      <div className="home-container">
+        <div className="search-bar-container">
+          <div className="search-bar">
+            <form onSubmit={handleSearch}>
+              <div className="input-group mb-3">
+                <input type="text" name="search" className="form-control" placeholder="Buscar productos..." aria-label="Buscar" aria-describedby="button-addon2"></input>
+                <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
+        {searchMessage && <p>{searchMessage}</p>}
+        <div className="product-table-container">
+          <ProductTable products={products} />
+        </div>
       </div>
-      {searchMessage && <p>{searchMessage}</p>} {}
-      <div className="product-table-container">
-        <ProductTable products={products} />
-      </div>
-    </div>
+    </>
   );
 }
 

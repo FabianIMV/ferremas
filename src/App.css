@@ -3,14 +3,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: auto;
+  min-height: calc(100vh - 60px);
+}
+
+.welcome-message {
+  width: 100%;
+  text-align: center;
+  position: sticky;
+  z-index: 1; 
+  margin-top: 10px !important;
+}
+
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .search-bar {
   width: 80%;
-  margin-bottom: 2rem;
+  margin-bottom: 8rem;
+  margin-top: 20px;
 }
 
 .product-table-container {
   width: 80%;
+}
+
+.img {
+  width: 100px;
+  height: auto;
 }
