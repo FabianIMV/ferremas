@@ -11,7 +11,7 @@ import Items from './components/Items/Items';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductTable from './components/ProductTable/ProductTable';
 import { searchProducts } from './dynamodb';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
+import { Modal, Button } from 'react-bootstrap';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -38,22 +38,20 @@ function App() {
             <Route path="/items" element={<Items />} />
             <Route path="/" element={<Home addToCart={addToCart} />} />
           </Routes>
-          <Dialog open={dialogOpen} onClose={handleClose}>
-            <DialogTitle>{"Producto agregado al carrito"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                El producto ha sido agregado a tu carrito. ¿Quieres ir al carrito ahora?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
+          <Modal show={dialogOpen} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Producto agregado al carrito</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>El producto ha sido agregado a tu carrito. ¿Quieres ir al carrito ahora?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
                 No
               </Button>
-              <Button onClick={() => { handleClose(); window.location.href = "/cart"; }} color="primary" autoFocus>
+              <Button variant="primary" onClick={() => { handleClose(); window.location.href = "/cart"; }}>
                 Sí
               </Button>
-            </DialogActions>
-          </Dialog>
+            </Modal.Footer>
+          </Modal>
         </div>
       </Router>
     </AuthProvider>
