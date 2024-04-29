@@ -8,7 +8,7 @@ import cadena from './cadena.webp';
 import item from './item.png';
 import '../../App.css';
 
-function ProductTable({ products }) {
+function ProductTable({ products, addToCart }) {
   if (products.length === 0) {
     return null;
   }
@@ -19,7 +19,7 @@ function ProductTable({ products }) {
         <tr>
           <th scope="col">Imagen</th>
           <th scope="col">Nombre</th>
-          <th scope="col">Precio</th>
+          <th scope="col">Precio (UF)</th>
           <th scope="col">Agregar al carrito</th> {/* nueva columna */}
           <th scope="col">Comprar ahora</th> {/* nueva columna */}
         </tr>
@@ -48,7 +48,7 @@ function ProductTable({ products }) {
               <td className="align-middle text-left"><img src={imageSrc} alt="item" className="img"></img></td>
               <td className="align-middle text-left">{product.name}</td>
               <td className="align-middle text-left">${product.price}</td>
-              <td className="align-middle text-left"><button className="btn btn-outline-secondary">Agregar al carrito</button></td> {}
+              <td className="align-middle text-left"><button className="btn btn-outline-secondary" onClick={() => addToCart(product)}>Agregar al carrito</button></td> {/* botón con evento onClick */}
               <td className="align-middle text-left"><button className="btn btn-outline-secondary">Comprar ahora</button></td> {}
             </tr>
           );
