@@ -11,12 +11,19 @@ import Items from './components/Items/Items';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductTable from './components/ProductTable/ProductTable';
 import { searchProducts } from './dynamodb';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@material-ui/core';
 
 function App() {
   const [cart, setCart] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const addToCart = (product) => {
     setCart(prevCart => [...prevCart, product]);
+    setDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
   };
 
   return (
@@ -27,10 +34,26 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/cart" element={<Cart cart={cart} />} /> {}
+            <Route path="/cart" element={<Cart cart={cart} />} />
             <Route path="/items" element={<Items />} />
-            <Route path="/" element={<Home addToCart={addToCart} />} /> {}
+            <Route path="/" element={<Home addToCart={addToCart} />} />
           </Routes>
+          <Dialog open={dialogOpen} onClose={handleClose}>
+            <DialogTitle>{"Producto agregado al carrito"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                El producto ha sido agregado a tu carrito. ¿Quieres ir al carrito ahora?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                No
+              </Button>
+              <Button onClick={() => { handleClose(); window.location.href = "/cart"; }} color="primary" autoFocus>
+                Sí
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </Router>
     </AuthProvider>
@@ -73,7 +96,7 @@ function Home({ addToCart }) {
         </div>
         {searchMessage && <p>{searchMessage}</p>}
         <div className="product-table-container">
-          <ProductTable products={products} addToCart={addToCart} /> {}
+          <ProductTable products={products} addToCart={addToCart} />
         </div>
       </div>
     </>
