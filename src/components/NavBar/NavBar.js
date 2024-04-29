@@ -13,22 +13,24 @@ const NavBar = () => {
             <Link to="/">
                 <img src={logo} alt="Logo" className="logo" />
             </Link>
-            <div className="cart-container">
-                <Link to="/cart">
-                    <img src={cart} alt="Cart" className="cart" />
-                </Link>
-                {isAuthenticated ? (
-                    <button onClick={logout} className="btn btn-primary btn-block mb-4 iniciar-sesion">Cerrar sesión</button>
-                ) : (
-                    <>
-                        <Link to="/login">
-                            <button className="btn btn-primary btn-block mb-4 iniciar-sesion">Iniciar Sesión</button>
-                        </Link>
-                        <Link to="/signup">
-                            <button className="btn btn-primary btn-block mb-4 iniciar-sesion">Registrarse</button>
-                        </Link>
-                    </>
-                )}
+            <div className="nav-buttons">
+                <div className="cart-container">
+                    <Link to="/cart">
+                        <img src={cart} alt="Cart" className="cart" />
+                    </Link>
+                    {isAuthenticated ? (
+                        <button onClick={logout} className="btn btn-primary btn-block mb-4 iniciar-sesion">Cerrar sesión</button>
+                    ) : (
+                        <>
+                            <Link to="/login">
+                                <button className="btn btn-primary btn-block mb-4 iniciar-sesion">Iniciar Sesión</button>
+                            </Link>
+                            <Link to="/signup">
+                                <button className="btn btn-primary btn-block mb-4 iniciar-sesion">Registrarse</button>
+                            </Link>
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );

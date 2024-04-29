@@ -13,6 +13,8 @@
 .navbar .nav-buttons {
     display: flex;
     align-items: center;
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    flex: 1; /* Hace que los botones ocupen todo el espacio restante a la derecha del logo */
 }
 
 .navbar .iniciar-sesion {
@@ -26,13 +28,12 @@
     align-items: center;
 }
 
-
 @media (max-width: 600px) {
     .navbar .logo {
-        height: 50px;
+        height: 30px;
     }
     .navbar .iniciar-sesion {
-        font-size: 14px;
+        font-size: 10px;
         margin-right: 15px;
         margin-top: 20px;
     }
