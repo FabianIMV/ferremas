@@ -7,7 +7,7 @@ import Alert from 'react-bootstrap/Alert';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { setIsAuthenticated } = useContext(AuthContext);
+    const { setIsAuthenticated, setUsername: setAuthUsername } = useContext(AuthContext);
     const [errorMessage, setErrorMessage] = useState('');
     const [message, setMessage] = useState('');
     const [username, setUsername] = useState('');
@@ -47,8 +47,9 @@ const Login = () => {
                         setMessage('Inicio de sesión exitoso');
                         console.log('Inicio de sesión exitoso')
                         setIsAuthenticated(true);
+                        setAuthUsername(username);
                         setTimeout(() => {
-                            navigate('/');
+                            navigate(`/`);
                         }, 2000);
                         resolve();
                     },

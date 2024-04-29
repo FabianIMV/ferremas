@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { CognitoUserPool, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
 
 const poolData = {
@@ -12,6 +12,21 @@ export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState(null);
+
+  useEffect(() => {
+    const cognitoUser = userPool.getCurrentUser();
+    if (cognitoUser) {
+      cognitoUser.getSession((err, session) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        setIsAuthenticated(session.isValid());
+        setUsername(cognitoUser.getUsername());
+      });
+    }
+  }, []);
 
   const login = (username, password) => {
     const authenticationDetails = new AuthenticationDetails({
@@ -24,6 +39,7 @@ export function AuthProvider({ children }) {
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: () => {
         setIsAuthenticated(true);
+        setUsername(username);
       },
       onFailure: err => {
         console.error(err);
@@ -39,10 +55,11 @@ export function AuthProvider({ children }) {
     }
 
     setIsAuthenticated(false);
+    setUsername(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, login, logout, username, setUsername }}>
       {children}
     </AuthContext.Provider>
   );
