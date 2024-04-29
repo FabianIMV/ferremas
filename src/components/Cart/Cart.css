@@ -1,5 +1,16 @@
 @media (min-width: 1025px) {
     .h-custom {
-    height: 100vh !important;
+      height: 100vh !important;
     }
+  
+    .app-container {
+      display: flex;
+      justify-content: space-between;
     }
+  
+    .app-container .cart-container {
+      width: 30%;
+      padding: 20px;
+      border-left: 1px solid #ccc;
+    }
+  }

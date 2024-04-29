@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, ListGroup, Row, Col, Button } from 'react-bootstrap';
 import ProductTable from '../ProductTable/ProductTable';
+import './Cart.css'
 
 function App() {
   const [cart, setCart] = useState([]); // estado para el carrito
@@ -29,8 +30,8 @@ function App() {
   ];
 
   return (
-    <div>
-      <ProductTable products={products} addToCart={addToCart} />
+    <div className="app-container">
+      <ProductTable products={products} addToCart={addToCart} cart={cart} />
       <Cart cartItems={cart} setCartItems={setCart} />
     </div>
   );
@@ -42,7 +43,7 @@ function Cart({ cartItems = [], setCartItems }) {
   };
 
   return (
-    <Container>
+    <Container className="cart-container">
       <h1>Carrito de Compras</h1>
       <ListGroup>
         {cartItems.map((item, index) => (

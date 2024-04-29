@@ -13,6 +13,12 @@ import ProductTable from './components/ProductTable/ProductTable';
 import { searchProducts } from './dynamodb';
 
 function App() {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    setCart(prevCart => [...prevCart, product]);
+  };
+
   return (
     <AuthProvider>
       <Router>
@@ -21,9 +27,9 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={<Cart cart={cart} />} /> {}
             <Route path="/items" element={<Items />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home addToCart={addToCart} />} /> {}
           </Routes>
         </div>
       </Router>
@@ -31,7 +37,7 @@ function App() {
   );
 }
 
-function Home() {
+function Home({ addToCart }) {
   const { isAuthenticated, username } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [searchMessage, setSearchMessage] = useState('');
@@ -67,7 +73,7 @@ function Home() {
         </div>
         {searchMessage && <p>{searchMessage}</p>}
         <div className="product-table-container">
-          <ProductTable products={products} />
+          <ProductTable products={products} addToCart={addToCart} /> {}
         </div>
       </div>
     </>
