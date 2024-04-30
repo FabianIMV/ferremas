@@ -19,20 +19,18 @@ function ProductTable({ products, addToCart }) {
     return null;
   }
 
+  // Dividir el array de productos en subarrays de 3 elementos
+  const productRows = [];
+  for (let i = 0; i < products.length; i += 3) {
+    productRows.push(products.slice(i, i + 3));
+  }
+
   return (
-    <table className="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Imagen</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Precio (UF)</th>
-          <th scope="col">Agregar al carrito</th> {/* nueva columna */}
-          <th scope="col">Comprar ahora</th> {/* nueva columna */}
-        </tr>
-      </thead>
-      <tbody>
-        {products.map((product) => {
-          let imageSrc;
+    <div>
+      {productRows.map((productRow, rowIndex) => (
+        <div key={rowIndex} className="row">
+          {productRow.map((product) => {
+            let imageSrc;
           if (product.name.toLowerCase() === 'alicate') {
             imageSrc = alicate;
           } else if (product.name.toLowerCase() === 'serrucho') {
@@ -64,18 +62,23 @@ function ProductTable({ products, addToCart }) {
           }
 
           return (
-            <tr key={product.name}>
-              <td className="align-middle text-left"><img src={imageSrc} alt="item" className="img"></img></td>
-              <td className="align-middle text-left">{product.name}</td>
-              <td className="align-middle text-left">${product.price}</td>
-              <td className="align-middle text-left"><button className="btn btn-outline-secondary" onClick={() => addToCart(product)}>Agregar al carrito</button></td> {/* botón con evento onClick */}
-              <td className="align-middle text-left"><button className="btn btn-outline-secondary">Comprar ahora</button></td> {}
-            </tr>
+            <div key={product.name} className="col" style={{ padding: '10px' }}>
+              <div className="card" style={{ width: '100%', height: '100%' }}>
+                <img src={imageSrc} alt="item" className="card-img-top"></img>
+                <div className="card-body">
+                  <h5 className="card-title">{product.name}</h5>
+                  <p className="card-text">${product.price}</p>
+                  <button className="btn btn-outline-secondary" onClick={() => addToCart(product)}>Agregar al carrito</button>
+                  <button className="btn btn-outline-secondary">Comprar ahora</button>
+                </div>
+              </div>
+            </div>
           );
         })}
-      </tbody>
-    </table>
-  );
+      </div>
+    ))}
+  </div>
+);
 }
 
 export default ProductTable;
