@@ -67,8 +67,9 @@ function Home({ addToCart }) {
   const handleSearch = async (event) => {
     event.preventDefault();
     let searchTerm = event.target.elements.search.value;
+    let category = event.target.elements.category.value;
     searchTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).toLowerCase();
-    const results = await searchProducts(searchTerm);
+    const results = await searchProducts(category, searchTerm);
     if (results.length === 0) {
       setSearchMessage('No se encontraron productos');
     } else {
@@ -86,6 +87,13 @@ function Home({ addToCart }) {
           <div className="search-bar">
             <form onSubmit={handleSearch}>
               <div className="input-group mb-3">
+                <select name="category" className="form-control">
+                  <option value="">Selecciona una categoría</option>
+                  <option value="Equipos de Seguridad">Equipos de Seguridad</option>
+                  <option value="Herramientas Manuales">Herramientas Manuales</option>
+                  <option value="Materiales Básicos">Materiales Básicos</option>
+                  <option value="Tornillos y Anclajes">Tornillos y Anclajes</option>
+                </select>
                 <input type="text" name="search" className="form-control" placeholder="Buscar productos..." aria-label="Buscar" aria-describedby="button-addon2"></input>
                 <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
               </div>

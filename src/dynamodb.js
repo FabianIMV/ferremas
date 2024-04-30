@@ -8,9 +8,27 @@ config.update({
 
 const docClient = new DynamoDB.DocumentClient();
 
-export function searchProducts(searchTerm) {
+export function searchProducts(category, searchTerm) {
+  let tableName;
+  switch (category) {
+    case 'Equipos de Seguridad':
+      tableName = 'ferremas-es';
+      break;
+    case 'Herramientas Manuales':
+      tableName = 'ferremas-hm';
+      break;
+    case 'Materiales Básicos':
+      tableName = 'ferremas-mb';
+      break;
+    case 'Tornillos y Anclajes':
+      tableName = 'ferremas-tya';
+      break;
+    default:
+      throw new Error(`Categoría desconocida: ${category}`);
+  }
+
   const params = {
-    TableName: 'ferremas-products',
+    TableName: tableName,
     FilterExpression: 'contains(#name, :name)',
     ExpressionAttributeNames: {
       '#name': 'name',
