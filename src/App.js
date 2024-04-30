@@ -93,7 +93,7 @@ function Home({ addToCart }) {
       }
       setProducts(results);
       setSearched(true);
-    } catch (error) { 
+    } catch (error) {
       console.error(error);
     }
   }
@@ -106,8 +106,8 @@ function Home({ addToCart }) {
           <div className="search-bar">
             <form onSubmit={handleSearch}>
               <div className="input-group mb-3">
-                {}
-                <input ref={searchInput} type="text" name="search" className="form-control search-input" placeholder="Buscar productos..." aria-label="Buscar" aria-describedby="button-addon2"></input>                
+                { }
+                <input ref={searchInput} type="text" name="search" className="form-control search-input" placeholder="Buscar productos..." aria-label="Buscar" aria-describedby="button-addon2"></input>
                 <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
               </div>
             </form>
@@ -115,10 +115,10 @@ function Home({ addToCart }) {
         </div>
         {!searched && (
           <div className="category-buttons">
-            <Button variant="primary" className="category-button" onClick={() => handleCategorySearch("Equipos de Seguridad")}>Equipos de Seguridad</Button>
-            <Button variant="primary" className="category-button" onClick={() => handleCategorySearch("Herramientas Manuales")}>Herramientas Manuales</Button>
-            <Button variant="primary" className="category-button" onClick={() => handleCategorySearch("Materiales Básicos")}>Materiales Básicos</Button>
-            <Button variant="primary" className="category-button" onClick={() => handleCategorySearch("Tornillos y Anclajes")}>Tornillos y Anclajes</Button>
+            <Button variant="primary" className="category-button btn-block d-md-inline-block mb-3 mb-md-0 mr-md-3" onClick={() => handleCategorySearch("Equipos de Seguridad")}>Equipos de Seguridad</Button>
+            <Button variant="primary" className="category-button btn-block d-md-inline-block mb-3 mb-md-0 mr-md-3" onClick={() => handleCategorySearch("Herramientas Manuales")}>Herramientas Manuales</Button>
+            <Button variant="primary" className="category-button btn-block d-md-inline-block mb-3 mb-md-0 mr-md-3" onClick={() => handleCategorySearch("Materiales Básicos")}>Materiales Básicos</Button>
+            <Button variant="primary" className="category-button btn-block d-md-inline-block mb-3 mb-md-0 mr-md-3" onClick={() => handleCategorySearch("Tornillos y Anclajes")}>Tornillos y Anclajes</Button>
           </div>
         )}
         {searchMessage && <p>{searchMessage}</p>}
