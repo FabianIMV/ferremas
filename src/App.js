@@ -65,17 +65,15 @@ function Home({ addToCart }) {
   const [searchMessage, setSearchMessage] = useState('');
   const [searched, setSearched] = useState(false);
 
-  // Crear una referencia al input
   const searchInput = useRef();
 
   const handleSearch = async (event) => {
     event.preventDefault();
 
-    // Usar la referencia para acceder al valor del input
     let searchTerm = searchInput.current.value;
     searchTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).toLowerCase();
 
-    const results = await searchProducts(searchTerm); // Solo pasamos el término de búsqueda
+    const results = await searchProducts(searchTerm);
     if (results.length === 0) {
       setSearchMessage('No se encontraron productos');
     } else {
@@ -93,7 +91,7 @@ function Home({ addToCart }) {
           <div className="search-bar">
             <form onSubmit={handleSearch}>
               <div className="input-group mb-3">
-                {/* Usar la referencia en el input */}
+                {}
                 <input ref={searchInput} type="text" name="search" className="form-control search-input" placeholder="Buscar productos..." aria-label="Buscar" aria-describedby="button-addon2"></input>                
                 <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
               </div>
