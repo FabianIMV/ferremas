@@ -8,10 +8,10 @@ config.update({
 
 const lambda = new Lambda();
 
-export function searchProducts(searchTerm) {
+export function searchProducts(searchTerm, isCategorySearch = false) {
   const params = {
     FunctionName: 'consultaProductos',
-    Payload: JSON.stringify({ body: JSON.stringify({ searchTerm }) }),
+    Payload: JSON.stringify({ body: JSON.stringify({ searchTerm, isCategorySearch }) }),
   };
 
   return new Promise((resolve, reject) => {

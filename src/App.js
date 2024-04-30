@@ -8,7 +8,6 @@ import Signup from './components/SignUp/Signup';
 import Cart from './components/Cart/Cart';
 import { AuthProvider, AuthContext } from './AuthContext';
 import Items from './components/Items/Items';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductTable from './components/ProductTable/ProductTable';
 import { searchProducts } from './dynamodb';
 import { Modal, Button } from 'react-bootstrap';
@@ -83,6 +82,22 @@ function Home({ addToCart }) {
     setSearched(true);
   };
 
+  const handleCategorySearch = async (category) => {
+    try {
+      const results = await searchProducts(category, true);
+      console.log(results);
+      if (results.length === 0) {
+        setSearchMessage('No se encontraron productos en esta categoría');
+      } else {
+        setSearchMessage('');
+      }
+      setProducts(results);
+      setSearched(true);
+    } catch (error) { 
+      console.error(error);
+    }
+  }
+
   return (
     <>
       {isAuthenticated && !searched && <h2 className="welcome-message">Bienvenido {username}, qué quieres comprar?</h2>}
@@ -100,10 +115,10 @@ function Home({ addToCart }) {
         </div>
         {!searched && (
           <div className="category-buttons">
-            <Button variant="primary" className="category-button">Equipos de Seguridad</Button>
-            <Button variant="primary" className="category-button">Herramientas Manuales</Button>
-            <Button variant="primary" className="category-button">Materiales Básicos</Button>
-            <Button variant="primary" className="category-button">Tornillos y Anclajes</Button>
+            <Button variant="primary" className="category-button" onClick={() => handleCategorySearch("Equipos de Seguridad")}>Equipos de Seguridad</Button>
+            <Button variant="primary" className="category-button" onClick={() => handleCategorySearch("Herramientas Manuales")}>Herramientas Manuales</Button>
+            <Button variant="primary" className="category-button" onClick={() => handleCategorySearch("Materiales Básicos")}>Materiales Básicos</Button>
+            <Button variant="primary" className="category-button" onClick={() => handleCategorySearch("Tornillos y Anclajes")}>Tornillos y Anclajes</Button>
           </div>
         )}
         {searchMessage && <p>{searchMessage}</p>}
