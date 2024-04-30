@@ -1,4 +1,4 @@
-import { DynamoDB, config } from 'aws-sdk';
+import { Lambda, config } from 'aws-sdk';
 
 config.update({
   region: 'us-east-1',
@@ -6,44 +6,23 @@ config.update({
   secretAccessKey: '82HPRjXy7GVFDZg0WkpZm02yLSi6ZCB48j1M0fCM',
 });
 
-const docClient = new DynamoDB.DocumentClient();
+const lambda = new Lambda();
 
-export function searchProducts(category, searchTerm) {
-  let tableName;
-  switch (category) {
-    case 'Equipos de Seguridad':
-      tableName = 'ferremas-es';
-      break;
-    case 'Herramientas Manuales':
-      tableName = 'ferremas-hm';
-      break;
-    case 'Materiales Básicos':
-      tableName = 'ferremas-mb';
-      break;
-    case 'Tornillos y Anclajes':
-      tableName = 'ferremas-tya';
-      break;
-    default:
-      throw new Error(`Categoría desconocida: ${category}`);
-  }
-
+export function searchProducts(searchTerm) {
   const params = {
-    TableName: tableName,
-    FilterExpression: 'contains(#name, :name)',
-    ExpressionAttributeNames: {
-      '#name': 'name',
-    },
-    ExpressionAttributeValues: {
-      ':name': searchTerm,
-    },
+    FunctionName: 'consultaProductos',
+    Payload: JSON.stringify({ body: JSON.stringify({ searchTerm }) }),
   };
 
   return new Promise((resolve, reject) => {
-    docClient.scan(params, function(err, data) {
+    lambda.invoke(params, function(err, data) {
       if (err) {
         reject(err);
       } else {
-        resolve(data.Items);
+        const payload = JSON.parse(data.Payload);
+        const body = JSON.parse(payload.body);
+        resolve(body);
+        console.log(body)
       }
     });
   });

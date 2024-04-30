@@ -5,14 +5,13 @@ import logo from './logoferremas.svg';
 import cart from './cart.svg';
 import { AuthContext } from '../../AuthContext';
 
-const NavBar = () => {
+const NavBar = ({ setKey }) => {
     const { isAuthenticated, logout } = useContext(AuthContext);
-
     return (
         <div className="navbar">
-            <Link to="/">
-                <img src={logo} alt="Logo" className="logo" />
-            </Link>
+            <Link to="/" onClick={() => setKey(prevKey => prevKey + 1)}>
+    <img src={logo} alt="Logo" className="logo"/>
+</Link>
             <div className="nav-buttons">
                 <div className="cart-container">
                     <Link to="/cart">

@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import NavBar from './components/NavBar/NavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -16,6 +16,7 @@ import { Modal, Button } from 'react-bootstrap';
 function App() {
   const [cart, setCart] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [key, setKey] = useState(0);
 
   const addToCart = (product) => {
     setCart(prevCart => [...prevCart, product]);
@@ -30,13 +31,13 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="App">
-          <NavBar />
+          <NavBar setKey={setKey} />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/cart" element={<Cart cart={cart} />} />
             <Route path="/items" element={<Items />} />
-            <Route path="/" element={<Home addToCart={addToCart} />} />
+            <Route path="/" element={<Home key={key} addToCart={addToCart} />} />
           </Routes>
           <Modal show={dialogOpen} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -64,26 +65,24 @@ function Home({ addToCart }) {
   const [searchMessage, setSearchMessage] = useState('');
   const [searched, setSearched] = useState(false);
 
+  // Crear una referencia al input
+  const searchInput = useRef();
+
   const handleSearch = async (event) => {
     event.preventDefault();
-    let searchTerm = event.target.elements.search.value;
-    let category = event.target.elements.category.value;
+
+    // Usar la referencia para acceder al valor del input
+    let searchTerm = searchInput.current.value;
     searchTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).toLowerCase();
-  
-    if (category === "") {
-      setProducts([]);
-      setSearchMessage('');
-      setSearched(false);
+
+    const results = await searchProducts(searchTerm); // Solo pasamos el término de búsqueda
+    if (results.length === 0) {
+      setSearchMessage('No se encontraron productos');
     } else {
-      const results = await searchProducts(category, searchTerm);
-      if (results.length === 0) {
-        setSearchMessage('No se encontraron productos');
-      } else {
-        setSearchMessage('');
-      }
-      setProducts(results);
-      setSearched(true);
+      setSearchMessage('');
     }
+    setProducts(results);
+    setSearched(true);
   };
 
   return (
@@ -94,22 +93,24 @@ function Home({ addToCart }) {
           <div className="search-bar">
             <form onSubmit={handleSearch}>
               <div className="input-group mb-3">
-                <select name="category" className="form-control">
-                  <option value="">Selecciona una categoría</option>
-                  <option value="Equipos de Seguridad">Equipos de Seguridad</option>
-                  <option value="Herramientas Manuales">Herramientas Manuales</option>
-                  <option value="Materiales Básicos">Materiales Básicos</option>
-                  <option value="Tornillos y Anclajes">Tornillos y Anclajes</option>
-                </select>
-                <input type="text" name="search" className="form-control" placeholder="Buscar productos..." aria-label="Buscar" aria-describedby="button-addon2"></input>
+                {/* Usar la referencia en el input */}
+                <input ref={searchInput} type="text" name="search" className="form-control search-input" placeholder="Buscar productos..." aria-label="Buscar" aria-describedby="button-addon2"></input>                
                 <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
               </div>
             </form>
           </div>
         </div>
+        {!searched && (
+          <div className="category-buttons">
+            <Button variant="primary" className="category-button">Equipos de Seguridad</Button>
+            <Button variant="primary" className="category-button">Herramientas Manuales</Button>
+            <Button variant="primary" className="category-button">Materiales Básicos</Button>
+            <Button variant="primary" className="category-button">Tornillos y Anclajes</Button>
+          </div>
+        )}
         {searchMessage && <p>{searchMessage}</p>}
         <div className="product-table-container">
-          <ProductTable products={products} addToCart={addToCart} />
+          {Array.isArray(products) && <ProductTable products={products} addToCart={addToCart} />}
         </div>
       </div>
     </>
