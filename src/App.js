@@ -69,14 +69,21 @@ function Home({ addToCart }) {
     let searchTerm = event.target.elements.search.value;
     let category = event.target.elements.category.value;
     searchTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).toLowerCase();
-    const results = await searchProducts(category, searchTerm);
-    if (results.length === 0) {
-      setSearchMessage('No se encontraron productos');
-    } else {
+  
+    if (category === "") {
+      setProducts([]);
       setSearchMessage('');
+      setSearched(false);
+    } else {
+      const results = await searchProducts(category, searchTerm);
+      if (results.length === 0) {
+        setSearchMessage('No se encontraron productos');
+      } else {
+        setSearchMessage('');
+      }
+      setProducts(results);
+      setSearched(true);
     }
-    setProducts(results);
-    setSearched(true);
   };
 
   return (

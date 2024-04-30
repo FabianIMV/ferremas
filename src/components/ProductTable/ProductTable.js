@@ -1,10 +1,16 @@
 import React from 'react';
-import audifonos from './audifonos.webp';
-import pantalla from './pantalla.jpeg';
-import reloj from './reloj.jpeg';
-import teclado from './teclado.webp';
-import iphone15 from './iphone15.jpeg';
-import cadena from './cadena.webp';
+import alicate from './alicate.webp';
+import serrucho from './serrucho.webp';
+import destornillador from './destornillador.webp';
+import lente from './lente.webp';
+import overol from './overol.webp';
+import casco from './casco.webp';
+import cemento from './cemento.webp';
+import mortero from './mortero.webp';
+import plancha from './planchazinc.webp';
+import tornilloautoperforante from './tornilloautoperforante.webp';
+import tornillomadera from './tornillomadera.webp';
+import tornillotecho from './tornillotecho.webp';
 import item from './item.png';
 import '../../App.css';
 
@@ -27,18 +33,32 @@ function ProductTable({ products, addToCart }) {
       <tbody>
         {products.map((product) => {
           let imageSrc;
-          if (product.name.toLowerCase() === 'audifonos') {
-            imageSrc = audifonos;
-          } else if (product.name.toLowerCase() === 'pantalla') {
-            imageSrc = pantalla;
-          } else if (product.name.toLowerCase() === 'cadena de oro') {
-            imageSrc = cadena;
-          } else if (product.name.toLowerCase() === 'teclado') {
-            imageSrc = teclado;
-          } else if (product.name.toLowerCase() === 'reloj') {
-            imageSrc = reloj;
-          } else if (product.name.toLowerCase() === 'iphone 18') {
-            imageSrc = iphone15;
+          if (product.name.toLowerCase() === 'alicate') {
+            imageSrc = alicate;
+          } else if (product.name.toLowerCase() === 'serrucho') {
+            imageSrc = serrucho;
+          } else if (product.name.toLowerCase() === 'lentes de seguridad') {
+            imageSrc = lente;
+          } else if (product.name.toLowerCase() === 'overol de trabajo') {
+            imageSrc = overol;
+          } else if (product.name.toLowerCase() === 'destornillador') {
+            imageSrc = destornillador;
+          } else if (product.name.toLowerCase() === 'casco de seguridad') {
+            imageSrc = casco;
+          } else if (product.name.toLowerCase() === 'overol de trabajo') {
+            imageSrc = overol;
+          } else if (product.name.toLowerCase() === 'cemento') {
+            imageSrc = cemento;
+          } else if (product.name.toLowerCase() === 'mortero') {
+            imageSrc = mortero;
+          } else if (product.name.toLowerCase() === 'plancha de zinc') {
+            imageSrc = plancha;
+          } else if (product.name.toLowerCase() === 'tornillo autoperforante') {
+            imageSrc = tornilloautoperforante;
+          } else if (product.name.toLowerCase() === 'tornillo madera') {
+            imageSrc = tornillomadera;
+          } else if (product.name.toLowerCase() === 'tornillo techo') {
+            imageSrc = tornillotecho;
           } else {
             imageSrc = item;
           }
