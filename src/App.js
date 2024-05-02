@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import NavBar from './components/NavBar/NavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -11,13 +11,13 @@ import Items from './components/Items/Items';
 import ProductTable from './components/ProductTable/ProductTable';
 import { searchProducts } from './dynamodb';
 import { Modal, Button } from 'react-bootstrap';
+import Carousel from './components/Carousel/Carousel';
 
 function App() {
   const [cart, setCart] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [key, setKey] = useState(0);
   const [products, setProducts] = useState([]);
-  const searchInput = useRef();
 
   const addToCart = (product) => {
     setCart(prevCart => [...prevCart, product]);
@@ -49,6 +49,7 @@ function App() {
             <Route path="/cart" element={<Cart cart={cart} />} />
             <Route path="/items" element={<Items />} />
             <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} />} />
+            <Route path="/carousel" element={<Carousel />} />
           </Routes>
           <Modal show={dialogOpen} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -73,15 +74,13 @@ function App() {
 function Home({ addToCart, products, setProducts, handleSearch }) {
   const { isAuthenticated, username } = useContext(AuthContext);
   const [searchMessage, setSearchMessage] = useState('');
-  const [searched, setSearched] = useState(false);
 
   const resetAppState = () => {
     setProducts([]);
-    setSearched(false);
   };
   useEffect(() => {
     handleSearch(resetAppState);
-  }, [handleSearch]);
+  });
 
   const handleCategorySearch = async (category) => {
     try {
@@ -93,7 +92,6 @@ function Home({ addToCart, products, setProducts, handleSearch }) {
         setSearchMessage('');
       }
       setProducts(results);
-      setSearched(true);
     } catch (error) {
       console.error(error);
     }
@@ -101,15 +99,15 @@ function Home({ addToCart, products, setProducts, handleSearch }) {
 
   return (
     <>
-      {isAuthenticated && !searched && <h2 className="welcome-message">Bienvenido {username}, qué quieres comprar?</h2>}
+      {isAuthenticated && <h2 className="welcome-message">Bienvenido {username}, qué quieres comprar?</h2>}
       <div className="home-container">
 
-      {searched && <h2>Resultados de la búsqueda:</h2>}
+      { <h2>Resultados de la búsqueda:</h2>}
         {searchMessage && <p>{searchMessage}</p>}
         <div className="product-table-container">
           {Array.isArray(products) && <ProductTable products={products} addToCart={addToCart} />}
         </div>
-        {!searched && !products.length && (
+        {!products.length && (
           <div className="category-buttons">
             <Button variant="primary" className="category-button btn-block d-md-inline-block mb-3 mb-md-0 mr-md-3" onClick={() => handleCategorySearch("Equipos de Seguridad")}>Equipos de Seguridad</Button>
             <Button variant="primary" className="category-button btn-block d-md-inline-block mb-3 mb-md-0 mr-md-3" onClick={() => handleCategorySearch("Herramientas Manuales")}>Herramientas Manuales</Button>
