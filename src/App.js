@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import NavBar from './components/NavBar/NavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -16,6 +16,8 @@ function App() {
   const [cart, setCart] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [key, setKey] = useState(0);
+  const [products, setProducts] = useState([]);
+  const searchInput = useRef();
 
   const addToCart = (product) => {
     setCart(prevCart => [...prevCart, product]);
@@ -26,17 +28,27 @@ function App() {
     setDialogOpen(false);
   };
 
+  const handleSearch = async (searchTerm) => {
+    try {
+      searchTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).toLowerCase();
+      const results = await searchProducts(searchTerm);
+      setProducts(results);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <AuthProvider>
       <Router>
         <div className="App">
-          <NavBar setKey={setKey} />
+          <NavBar setKey={setKey} handleSearch={handleSearch} />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/cart" element={<Cart cart={cart} />} />
             <Route path="/items" element={<Items />} />
-            <Route path="/" element={<Home key={key} addToCart={addToCart} />} />
+            <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} />} />
           </Routes>
           <Modal show={dialogOpen} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -58,29 +70,18 @@ function App() {
   );
 }
 
-function Home({ addToCart }) {
+function Home({ addToCart, products, setProducts, handleSearch }) {
   const { isAuthenticated, username } = useContext(AuthContext);
-  const [products, setProducts] = useState([]);
   const [searchMessage, setSearchMessage] = useState('');
   const [searched, setSearched] = useState(false);
 
-  const searchInput = useRef();
-
-  const handleSearch = async (event) => {
-    event.preventDefault();
-
-    let searchTerm = searchInput.current.value;
-    searchTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).toLowerCase();
-
-    const results = await searchProducts(searchTerm);
-    if (results.length === 0) {
-      setSearchMessage('No se encontraron productos');
-    } else {
-      setSearchMessage('');
-    }
-    setProducts(results);
-    setSearched(true);
+  const resetAppState = () => {
+    setProducts([]);
+    setSearched(false);
   };
+  useEffect(() => {
+    handleSearch(resetAppState);
+  }, [handleSearch]);
 
   const handleCategorySearch = async (category) => {
     try {
@@ -102,18 +103,13 @@ function Home({ addToCart }) {
     <>
       {isAuthenticated && !searched && <h2 className="welcome-message">Bienvenido {username}, qué quieres comprar?</h2>}
       <div className="home-container">
-        <div className="search-bar-container">
-          <div className="search-bar">
-            <form onSubmit={handleSearch}>
-              <div className="input-group mb-3">
-                { }
-                <input ref={searchInput} type="text" name="search" className="form-control search-input" placeholder="Buscar productos..." aria-label="Buscar" aria-describedby="button-addon2"></input>
-                <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
-              </div>
-            </form>
-          </div>
+
+      {searched && <h2>Resultados de la búsqueda:</h2>}
+        {searchMessage && <p>{searchMessage}</p>}
+        <div className="product-table-container">
+          {Array.isArray(products) && <ProductTable products={products} addToCart={addToCart} />}
         </div>
-        {!searched && (
+        {!searched && !products.length && (
           <div className="category-buttons">
             <Button variant="primary" className="category-button btn-block d-md-inline-block mb-3 mb-md-0 mr-md-3" onClick={() => handleCategorySearch("Equipos de Seguridad")}>Equipos de Seguridad</Button>
             <Button variant="primary" className="category-button btn-block d-md-inline-block mb-3 mb-md-0 mr-md-3" onClick={() => handleCategorySearch("Herramientas Manuales")}>Herramientas Manuales</Button>
@@ -121,13 +117,8 @@ function Home({ addToCart }) {
             <Button variant="primary" className="category-button btn-block d-md-inline-block mb-3 mb-md-0 mr-md-3" onClick={() => handleCategorySearch("Tornillos y Anclajes")}>Tornillos y Anclajes</Button>
           </div>
         )}
-        {searchMessage && <p>{searchMessage}</p>}
-        <div className="product-table-container">
-          {Array.isArray(products) && <ProductTable products={products} addToCart={addToCart} />}
-        </div>
       </div>
     </>
   );
 }
-
 export default App;

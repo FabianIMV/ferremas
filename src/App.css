@@ -11,22 +11,9 @@
     width: 100%;
   }
 }
-
-.search-bar-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.select-category {
-  padding-left: 40px;
-  flex: 1 0 15%;
-}
-
-.search-input {
-  flex: 0 1 80%;
-  width: auto;
+.navbar .user {
+  height: 30px;
+  width: 30px;
 }
 
 .category-buttons {
