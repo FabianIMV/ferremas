@@ -74,6 +74,9 @@
         order: 2;
         width: 100%;
     }
+    .search-input, .search-bar {
+        max-height: none;
+    }
     .navbar .iniciar-sesion {
         font-size: 10px;
         margin-right: 15px;
