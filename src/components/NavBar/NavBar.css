@@ -59,8 +59,18 @@
     width: 30px;
 }
 @media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+    }
     .navbar .logo {
         height: 30px;
+        order: 1;
+    }
+    .navbar .nav-buttons {
+        order: 3;
+    }
+    .search-bar-container {
+        order: 2;
     }
     .navbar .iniciar-sesion {
         font-size: 10px;
