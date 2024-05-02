@@ -72,6 +72,7 @@
     }
     .search-bar-container {
         order: 2;
+        width: 100%;
     }
     .navbar .iniciar-sesion {
         font-size: 10px;
