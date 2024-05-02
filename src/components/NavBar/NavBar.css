@@ -57,6 +57,7 @@
 .navbar .user {
     height: 30px;
     width: 30px;
+    cursor: pointer;
 }
 @media (max-width: 600px) {
     .navbar {
