@@ -10,18 +10,22 @@ import { AuthProvider, AuthContext } from './AuthContext';
 import Items from './components/Items/Items';
 import ProductTable from './components/ProductTable/ProductTable';
 import { searchProducts } from './dynamodb';
-import { Modal, Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import Carousel from './components/Carousel/Carousel';
 import { loadCart, saveCart, clearCart } from './components/Cart/LocalStorage';
+import Newsletter from './components/Newsletter/Newsletter';
 
 function App() {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [ setDialogOpen] = useState(false);
   const [key, setKey] = useState(0);
   const [products, setProducts] = useState([]);
   const [showCarousel, setShowCarousel] = useState(true);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cart, setCart] = useState(loadCart());
+  const [showNewsletter, setShowNewsletter] = useState(false);
 
+  const handleShowNewsletter = () => setShowNewsletter(true);
+  const handleCloseNewsletter = () => setShowNewsletter(false);
   const addToCart = (product) => {
     setCart(prevCart => {
       const newCart = [...prevCart, product];
@@ -34,10 +38,6 @@ function App() {
   const handlePurchase = () => {
     setCart([]);
     clearCart();
-  };
-
-  const handleClose = () => {
-    setDialogOpen(false);
   };
 
   const handleSearch = async (searchTerm) => {
@@ -55,7 +55,7 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="App">
-          <NavBar setKey={setKey} handleSearch={handleSearch} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart}/>
+          <NavBar setKey={setKey} handleSearch={handleSearch} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart} handleShowNewsletter={handleShowNewsletter}/>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
@@ -64,19 +64,14 @@ function App() {
             <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} showCarousel={showCarousel} setShowCarousel={setShowCarousel} />} />
             <Route path="/carousel" element={<Carousel />} />
           </Routes>
-          <Modal show={dialogOpen} onHide={handleClose}>
+          <Button className="subscribe-button" onClick={handleShowNewsletter}>Suscríbete!</Button>
+          <Modal show={showNewsletter} onHide={handleCloseNewsletter}>
             <Modal.Header closeButton>
-              <Modal.Title>Producto agregado al carrito</Modal.Title>
+              <Modal.Title>Newsletter</Modal.Title>
             </Modal.Header>
-            <Modal.Body>El producto ha sido agregado a tu carrito. ¿Quieres ir al carrito ahora?</Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                No
-              </Button>
-              <Button variant="primary" onClick={() => { handleClose(); window.location.href = "/cart"; }}>
-                Sí
-              </Button>
-            </Modal.Footer>
+            <Modal.Body>
+              <Newsletter handleClose={handleCloseNewsletter} />
+            </Modal.Body>
           </Modal>
         </div>
       </Router>

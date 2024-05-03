@@ -66,3 +66,14 @@
   text-align: center;
 }
 
+
+.subscribe-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 0.8em;
+}
+
