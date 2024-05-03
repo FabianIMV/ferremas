@@ -50,7 +50,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/cart" element={<Cart cart={cart} />} />
             <Route path="/items" element={<Items />} />
-            <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} showCarousel={showCarousel} />} />
+            <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} showCarousel={showCarousel} setShowCarousel={setShowCarousel} />} />
             <Route path="/carousel" element={<Carousel />} />
           </Routes>
           <Modal show={dialogOpen} onHide={handleClose}>
@@ -73,7 +73,7 @@ function App() {
   );
 }
 
-function Home({ addToCart, products, setProducts, handleSearch, showCarousel }) {
+function Home({ addToCart, products, setProducts, handleSearch, showCarousel, setShowCarousel }) {
   const { isAuthenticated, username } = useContext(AuthContext);
   const [searchMessage, setSearchMessage] = useState('');
 
@@ -81,11 +81,12 @@ function Home({ addToCart, products, setProducts, handleSearch, showCarousel }) 
     setProducts([]);
   };
   useEffect(() => {
-    handleSearch(resetAppState);
-  });
+    resetAppState();
+  }, []);
 
   const handleCategorySearch = async (category) => {
     try {
+      setShowCarousel(false);
       const results = await searchProducts(category, true);
       console.log(results);
       if (results.length === 0) {
