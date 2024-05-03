@@ -42,19 +42,28 @@ const NavBar = ({ setKey, handleSearch, resetAppState, isCartOpen, setIsCartOpen
                     <img src={carticon} alt="Cart" className="cart" onClick={() => setIsCartOpen(!isCartOpen)} />
                     {isCartOpen && (
                         <div className="cart-dropdown">
-                            {}
-                            {cart.map((product, index) => (
+                            {Object.values(cart.reduce((acc, product) => {
+                                if (!acc[product.name]) {
+                                    acc[product.name] = {
+                                        ...product,
+                                        quantity: 0,
+                                        totalPrice: 0
+                                    };
+                                }
+                                acc[product.name].quantity += 1;
+                                acc[product.name].totalPrice += product.price;
+                                return acc;
+                            }, {})).map((product, index) => (
                                 <div key={index}>
-                                    {}
                                     <td>
-                                    <p>{product.name}:</p>
+                                        <p>{product.quantity} x {product.name}:</p>
                                     </td>
                                     <td>
-                                    <p>${product.price}</p>
+                                        <p>${product.totalPrice}</p>
                                     </td>
                                 </div>
                             ))}
-                            
+
                             <Link to="/cart">
                                 <button className="btn btn-primary" onClick={() => setIsCartOpen(false)}>Ir al carrito</button>
                             </Link>

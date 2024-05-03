@@ -21,9 +21,21 @@ const Cart = () => {
             {cart.length === 0 ? (
                 <p>No hay productos en el carrito.</p>
             ) : (
-                cart.map((product, index) => (
+                Object.values(cart.reduce((acc, product) => {
+                    if (!acc[product.name]) {
+                        acc[product.name] = {
+                            ...product,
+                            quantity: 0,
+                            totalPrice: 0
+                        };
+                    }
+                    acc[product.name].quantity += 1;
+                    acc[product.name].totalPrice += product.price;
+                    return acc;
+                }, {})).map((product, index) => (
                     <div key={index} className="cart-item-component">
-                        <p>{product.name}</p>
+                        <p>{product.quantity} x {product.name}</p>
+                        <p>Total: ${product.totalPrice}</p>
                         <button onClick={() => removeFromCart(product)} className="btn btn-danger">Eliminar</button>
                     </div>
                 ))
