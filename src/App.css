@@ -33,6 +33,11 @@
     margin: 5px !important;
     padding: 1 !important;
   }
+  .navbar .search-bar-container  {
+    flex: 1 0 auto;
+    max-width:45%;
+    overflow: auto;
+}
 }
 
 .welcome-message {
