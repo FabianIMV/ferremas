@@ -8,7 +8,7 @@ config.update({
 
 const lambda = new Lambda();
 
-export function searchProducts(searchTerm, isCategorySearch = false) {
+export function searchProducts(searchTerm = '', isCategorySearch = false) {
   const params = {
     FunctionName: 'consultaProductos',
     Payload: JSON.stringify({ body: JSON.stringify({ searchTerm, isCategorySearch }) }),

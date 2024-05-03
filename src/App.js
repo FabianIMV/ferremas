@@ -100,6 +100,7 @@ function Home({ addToCart, products, setProducts, handleSearch }) {
   return (
     <>
       {isAuthenticated && <h2 className="welcome-message">Bienvenido {username}, qué quieres comprar?</h2>}
+      <Carousel />
       <div className="home-container">
 
       { <h2>Resultados de la búsqueda:</h2>}

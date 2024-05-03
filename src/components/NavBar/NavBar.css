@@ -68,7 +68,7 @@
         margin-right: 15px;
         margin-top: 20px;
     }
-    .navbar .search-input {
+    .navbar .search-bar-container  {
         flex: 1 1 auto;
     max-height: 100px;
     overflow: auto;
