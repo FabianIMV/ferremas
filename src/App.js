@@ -12,18 +12,28 @@ import ProductTable from './components/ProductTable/ProductTable';
 import { searchProducts } from './dynamodb';
 import { Modal, Button } from 'react-bootstrap';
 import Carousel from './components/Carousel/Carousel';
-import { loadcart, saveCart, clearCart } from './localStorage';
+import { loadCart, saveCart, clearCart } from './components/Cart/LocalStorage';
 
 function App() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [key, setKey] = useState(0);
   const [products, setProducts] = useState([]);
   const [showCarousel, setShowCarousel] = useState(true);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [cart, setCart] = useState(loadCart());
 
   const addToCart = (product) => {
-    setCart(prevCart => [...prevCart, product]);
-    setDialogOpen(true);
+    setCart(prevCart => {
+      const newCart = [...prevCart, product];
+      saveCart(newCart);
+      return newCart;
+    });
+    setIsCartOpen(true);
+  };
+
+  const handlePurchase = () => {
+    setCart([]);
+    clearCart();
   };
 
   const handleClose = () => {
@@ -45,11 +55,11 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="App">
-          <NavBar setKey={setKey} handleSearch={handleSearch} />
+          <NavBar setKey={setKey} handleSearch={handleSearch} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart}/>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/cart" element={<Cart cart={cart} />} />
+            <Route path="/cart" element={<Cart cart={cart} onPurchase={handlePurchase} />} />
             <Route path="/items" element={<Items />} />
             <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} showCarousel={showCarousel} setShowCarousel={setShowCarousel} />} />
             <Route path="/carousel" element={<Carousel />} />

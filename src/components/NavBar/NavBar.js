@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import './NavBar.css';
 import logo from './logoferremas.svg';
 import user from './user.svg';
-import cart from './cart.svg';
+import carticon from './cart.svg';
 import { AuthContext } from '../../AuthContext';
 
-const NavBar = ({ setKey, handleSearch, resetAppState }) => {
+const NavBar = ({ setKey, handleSearch, resetAppState, isCartOpen, setIsCartOpen, cart }) => {
     const { isAuthenticated, logout } = useContext(AuthContext);
     const [showButtons, setShowButtons] = useState(false);
     const searchInput = useRef();
@@ -39,9 +39,27 @@ const NavBar = ({ setKey, handleSearch, resetAppState }) => {
 
             <div className="nav-buttons">
                 <div className="cart-container">
-                    <Link to="/cart">
-                        <img src={cart} alt="Cart" className="cart" />
-                    </Link>
+                    <img src={carticon} alt="Cart" className="cart" onClick={() => setIsCartOpen(!isCartOpen)} />
+                    {isCartOpen && (
+                        <div className="cart-dropdown">
+                            {}
+                            {cart.map((product, index) => (
+                                <div key={index}>
+                                    {}
+                                    <td>
+                                    <p>{product.name}:</p>
+                                    </td>
+                                    <td>
+                                    <p>${product.price}</p>
+                                    </td>
+                                </div>
+                            ))}
+                            
+                            <Link to="/cart">
+                                <button className="btn btn-primary" onClick={() => setIsCartOpen(false)}>Ir al carrito</button>
+                            </Link>
+                        </div>
+                    )}
                     <img src={user} alt="User" className="user" onClick={() => setShowButtons(!showButtons)} />
                     {showButtons && (
                         isAuthenticated ? (
