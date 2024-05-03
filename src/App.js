@@ -102,8 +102,6 @@ function Home({ addToCart, products, setProducts, handleSearch }) {
       {isAuthenticated && <h2 className="welcome-message">Bienvenido {username}, qué quieres comprar?</h2>}
       <Carousel />
       <div className="home-container">
-
-      { <h2>Resultados de la búsqueda:</h2>}
         {searchMessage && <p>{searchMessage}</p>}
         <div className="product-table-container">
           {Array.isArray(products) && <ProductTable products={products} addToCart={addToCart} />}

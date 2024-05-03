@@ -74,16 +74,16 @@ function ProductCarousel() {
         return (
           <Carousel.Item key={idx} className="custom-carousel">
             <img
-              className="d-block w-100"
+              className="custom-image"
               src={imageSrc}
               alt={product.name}
             />
             <Carousel.Caption className="bg-dark p-3 rounded custom-caption">
               <h3 className="text-light">{product.name}</h3>
-              </Carousel.Caption>
-              <Carousel.Caption className="product-description bg-dark p-3 rounded custom-caption">
-              <p className="text-light">{product.description}</p>
             </Carousel.Caption>
+            <div className="product-description bg-dark p-3 rounded custom-caption">
+              <p className="text-light">{product.description}</p>
+            </div>
           </Carousel.Item>
         );
       })}

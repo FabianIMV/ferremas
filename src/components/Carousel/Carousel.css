@@ -16,18 +16,24 @@
 
 .product-description {
     position: relative;
-    top: -50px;
+    font-size: 14px;
 }
 
 .custom-carousel .carousel-item {
-    height: 400;
-    width: 250%;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   }
   
-  .custom-carousel .carousel-item img {
-    height: 100%;
-    width: auto;
-    object-fit: cover;
+  .custom-carousel .custom-image {
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+  width: 60%;
+  object-fit: cover;
+  margin: auto;
   }
 
   @media (max-width: 576px) {
