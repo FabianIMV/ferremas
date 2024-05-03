@@ -12,13 +12,14 @@ import ProductTable from './components/ProductTable/ProductTable';
 import { searchProducts } from './dynamodb';
 import { Modal, Button } from 'react-bootstrap';
 import Carousel from './components/Carousel/Carousel';
+import { loadcart, saveCart, clearCart } from './localStorage';
 
 function App() {
-  const [cart, setCart] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [key, setKey] = useState(0);
   const [products, setProducts] = useState([]);
   const [showCarousel, setShowCarousel] = useState(true);
+  const [cart, setCart] = useState(loadCart());
 
   const addToCart = (product) => {
     setCart(prevCart => [...prevCart, product]);
@@ -77,12 +78,10 @@ function Home({ addToCart, products, setProducts, handleSearch, showCarousel, se
   const { isAuthenticated, username } = useContext(AuthContext);
   const [searchMessage, setSearchMessage] = useState('');
 
-  const resetAppState = () => {
-    setProducts([]);
-  };
+
   useEffect(() => {
-    resetAppState();
-  }, []);
+    setProducts([]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCategorySearch = async (category) => {
     try {
