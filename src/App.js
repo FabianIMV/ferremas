@@ -16,7 +16,7 @@ import { loadCart, saveCart, clearCart } from './components/Cart/LocalStorage';
 import Newsletter from './components/Newsletter/Newsletter';
 
 function App() {
-  const [ setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [key, setKey] = useState(0);
   const [products, setProducts] = useState([]);
   const [showCarousel, setShowCarousel] = useState(true);
@@ -25,6 +25,11 @@ function App() {
   const [showNewsletter, setShowNewsletter] = useState(false);
 
   const handleShowNewsletter = () => setShowNewsletter(true);
+
+  useEffect(() => {
+    console.log('showNewsletter:', showNewsletter);
+  }, [showNewsletter]);
+
   const handleCloseNewsletter = () => setShowNewsletter(false);
   const addToCart = (product) => {
     setCart(prevCart => {
@@ -55,7 +60,7 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="App">
-          <NavBar setKey={setKey} handleSearch={handleSearch} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart} handleShowNewsletter={handleShowNewsletter}/>
+        <NavBar setKey={setKey} handleSearch={handleSearch} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart} handleShowNewsletter={handleShowNewsletter}/>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
@@ -66,9 +71,7 @@ function App() {
           </Routes>
           <Button className="subscribe-button" onClick={handleShowNewsletter}>Suscríbete!</Button>
           <Modal show={showNewsletter} onHide={handleCloseNewsletter}>
-            <Modal.Header closeButton>
-              <Modal.Title>Newsletter</Modal.Title>
-            </Modal.Header>
+           
             <Modal.Body>
               <Newsletter handleClose={handleCloseNewsletter} />
             </Modal.Body>
