@@ -18,6 +18,7 @@ function App() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [key, setKey] = useState(0);
   const [products, setProducts] = useState([]);
+  const [showCarousel, setShowCarousel] = useState(true);
 
   const addToCart = (product) => {
     setCart(prevCart => [...prevCart, product]);
@@ -33,6 +34,7 @@ function App() {
       searchTerm = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).toLowerCase();
       const results = await searchProducts(searchTerm);
       setProducts(results);
+      setShowCarousel(false);
     } catch (error) {
       console.error(error);
     }
@@ -48,7 +50,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/cart" element={<Cart cart={cart} />} />
             <Route path="/items" element={<Items />} />
-            <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} />} />
+            <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} showCarousel={showCarousel} />} />
             <Route path="/carousel" element={<Carousel />} />
           </Routes>
           <Modal show={dialogOpen} onHide={handleClose}>
@@ -71,7 +73,7 @@ function App() {
   );
 }
 
-function Home({ addToCart, products, setProducts, handleSearch }) {
+function Home({ addToCart, products, setProducts, handleSearch, showCarousel }) {
   const { isAuthenticated, username } = useContext(AuthContext);
   const [searchMessage, setSearchMessage] = useState('');
 
@@ -100,7 +102,7 @@ function Home({ addToCart, products, setProducts, handleSearch }) {
   return (
     <>
       {isAuthenticated && <h2 className="welcome-message">Bienvenido {username}, qué quieres comprar?</h2>}
-      <Carousel />
+      {showCarousel && <Carousel />}
       <div className="home-container">
         {searchMessage && <p>{searchMessage}</p>}
         <div className="product-table-container">
