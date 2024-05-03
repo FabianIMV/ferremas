@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Carousel } from 'react-bootstrap';
 import { searchProducts } from '../../dynamodb';
 import alicate from '../ProductTable/alicate.webp';
-import serrucho from '../components/ProductTable/serrucho.webp';
-import destornillador from '../components/ProductTable/destornillador.webp';
-import lente from '../components/ProductTable/lente.webp';
-import overol from '../components/ProductTable/overol.webp';
-import casco from '../components/ProductTable/casco.webp';
-import cemento from '../components/ProductTable/cemento.webp';
-import mortero from '../components/ProductTable/mortero.webp';
-import plancha from './components/ProductTable/planchazinc.webp';
-import tornilloautoperforante from './components/ProductTable/tornilloautoperforante.webp';
-import tornillomadera from './components/ProductTable/tornillomadera.webp';
-import tornillotecho from './components/ProductTable/tornillotecho.webp';
-import item from './item.png';
+import serrucho from '../ProductTable/serrucho.webp';
+import destornillador from '../ProductTable/destornillador.webp';
+import lente from '../ProductTable/lente.webp';
+import overol from '../ProductTable/overol.webp';
+import casco from '../ProductTable/casco.webp';
+import cemento from '../ProductTable/cemento.webp';
+import mortero from '../ProductTable/mortero.webp';
+import plancha from '../ProductTable/planchazinc.webp';
+import tornilloautoperforante from '../ProductTable/tornilloautoperforante.webp';
+import tornillomadera from '../ProductTable/tornillomadera.webp';
+import tornillotecho from '../ProductTable/tornillotecho.webp';
+import item from '../ProductTable/item.png';
+import './Carousel.css';
 
 async function getRandomProducts() {
   try {
@@ -71,14 +72,16 @@ function ProductCarousel() {
         }
 
         return (
-          <Carousel.Item key={idx}>
+          <Carousel.Item key={idx} className="custom-carousel">
             <img
               className="d-block w-100"
               src={imageSrc}
               alt={product.name}
             />
-            <Carousel.Caption className="bg-dark p-3 rounded">
+            <Carousel.Caption className="bg-dark p-3 rounded custom-caption">
               <h3 className="text-light">{product.name}</h3>
+              </Carousel.Caption>
+              <Carousel.Caption className="product-description bg-dark p-3 rounded custom-caption">
               <p className="text-light">{product.description}</p>
             </Carousel.Caption>
           </Carousel.Item>
