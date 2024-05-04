@@ -2,8 +2,11 @@
   padding: 20px;
   border-radius: 0.25rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  width: 100%;
   background-color: #f8f9fa;
+}
+
+.cart-dropdown {
+  width: 800px;
 }
 
 .cart-item-component {

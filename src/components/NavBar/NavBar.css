@@ -46,13 +46,14 @@
 .navbar .iniciar-sesion {
     margin-right: 25px;
     margin-top: 20px;
-    margin-left: -15px;
 }
 
 .navbar .cart-container {
     display: flex;
     align-items: center;
     cursor: pointer;
+    position: relative;
+
 }
 
 .navbar .user {
@@ -76,16 +77,15 @@
     overflow: auto;
     }
 }
-
 .cart-dropdown {
+    width: 800px; 
+    height: 400px;
     position: absolute;
-    top: 50px;
-    right: 40px;
+    top: 100%; 
+    right: 0;
     background: #fff;
-    padding: 20px;
+    padding: 10px;
     border-radius: 0.25rem;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    width: 300px;
     z-index: 1000;
-    margin-left: -200px;
 }

@@ -5,8 +5,9 @@ import logo from './logoferremas.svg';
 import user from './user.svg';
 import carticon from './cart.svg';
 import { AuthContext } from '../../AuthContext';
+import Cart from '../Cart/Cart';
 
-const NavBar = ({ setKey, handleSearch, resetAppState, isCartOpen, setIsCartOpen, cart }) => {
+const NavBar = ({ setKey, handleSearch, resetAppState, isCartOpen, setIsCartOpen }) => {
     const { isAuthenticated, logout } = useContext(AuthContext);
     const [showButtons, setShowButtons] = useState(false);
     const searchInput = useRef();
@@ -41,35 +42,10 @@ const NavBar = ({ setKey, handleSearch, resetAppState, isCartOpen, setIsCartOpen
                 <div className="cart-container">
                     <img src={carticon} alt="Cart" className="cart" onClick={() => setIsCartOpen(!isCartOpen)} />
                     {isCartOpen && (
-                        <div className="cart-dropdown">
-                            {Object.values(cart.reduce((acc, product) => {
-                                if (!acc[product.name]) {
-                                    acc[product.name] = {
-                                        ...product,
-                                        quantity: 0,
-                                        totalPrice: 0
-                                    };
-                                }
-                                acc[product.name].quantity += 1;
-                                acc[product.name].totalPrice += product.price;
-                                return acc;
-                            }, {})).map((product, index) => (
-                                <div key={index}>
-                                    <td>
-                                        <p>{product.quantity} x {product.name}:</p>
-                                    </td>
-                                    <td>
-                                        <p>${product.totalPrice}</p>
-                                    </td>
-                                </div>
-                            ))}
-
-                            <Link to="/cart">
-                                <button className="btn btn-primary" onClick={() => setIsCartOpen(false)}>Ir al carrito</button>
-                            </Link>
-                        </div>
+                        <Cart isDropdown={isCartOpen} />
                     )}
                     <img src={user} alt="User" className="user" onClick={() => setShowButtons(!showButtons)} />
+
                     {showButtons && (
                         isAuthenticated ? (
                             <button onClick={logout} className="btn btn-primary btn-block mb-4 iniciar-sesion">Cerrar sesión</button>
