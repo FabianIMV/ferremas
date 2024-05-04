@@ -12,11 +12,19 @@ const Newsletter = ({handleClose}) => {
         setMessage('');
     };
 
+    const isValidEmail = (email) => {
+        return email.includes('@') && email.includes('.');
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        setMessage(`Gracias por suscribirte, ${email}!`);
-        setEmail('');
-        setTimeout(handleClose, 2000);
+        if (isValidEmail(email)) {
+            setMessage(`Gracias por suscribirte, ${email}!`);
+            setEmail('');
+            setTimeout(handleClose, 2000);
+        } else {
+            setMessage('Por favor, introduce un correo electrónico válido.');
+        }
     };
 
     return (
@@ -45,7 +53,7 @@ const Newsletter = ({handleClose}) => {
                     Cerrar
                 </Button>
                 {!message && (
-                    <Button variant="primary" onClick={handleSubmit}>
+                    <Button variant="primary" onClick={handleSubmit} disabled={!isValidEmail(email)}>
                         Suscribirse
                     </Button>
                 )}

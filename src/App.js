@@ -69,7 +69,7 @@ function App() {
             <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} showCarousel={showCarousel} setShowCarousel={setShowCarousel} />} />
             <Route path="/carousel" element={<Carousel />} />
           </Routes>
-          <Button className="subscribe-button" onClick={handleShowNewsletter}>Suscríbete!</Button>
+          <Button className="subscribe-button" onClick={handleShowNewsletter}>Suscríbete</Button>
           <Modal show={showNewsletter} onHide={handleCloseNewsletter}>
            
             <Modal.Body>

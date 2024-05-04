@@ -68,12 +68,14 @@
 
 
 .subscribe-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  font-size: 0.8em;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  border-radius: 50% !important;
+  width: 60px !important;
+  height: 60px !important;
+  font-size: 0.8em !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
-
