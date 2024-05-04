@@ -68,7 +68,7 @@ function ProductTable({ products, addToCart }) {
                 <img src={imageSrc} alt="item" className="card-img-top"></img>
                 <div className="card-body">
                   <h5 className="card-title">{product.name}</h5>
-                  <p className="card-text">${product.price}</p>
+                  <p className="card-text">${product.price} USD</p>
                   <button className="btn btn-outline-secondary" onClick={() => addToCart(product)}>Agregar al carrito</button>
                   <button className="btn btn-outline-secondary">Comprar ahora</button>
                 </div>
