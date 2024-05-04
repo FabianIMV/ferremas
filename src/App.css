@@ -78,4 +78,7 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  background-color: #ffe926 !important;
+  color: black !important;
+  border-color:#ffe926 !important;
 }
