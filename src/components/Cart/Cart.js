@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {CartContext}  from './CartContext';
 import './Cart.css';
 
 const Cart = ({ isDropdown, setIsDropdown }) => {
-    const [cart, setCart] = useState([]);
+    const { cart, setCart } = useContext(CartContext);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const initialCart = JSON.parse(localStorage.getItem('cart')) || [];
-        setCart(initialCart);
-    }, []);
 
     const addToCart = (productToAdd) => {
         const existingProduct = cart.find(product => product.name === productToAdd.name);
@@ -23,7 +19,6 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
     const removeFromCart = (productToRemove) => {
         const updatedCart = cart.filter(product => product.name !== productToRemove.name);
         setCart(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
     
     const increaseQuantity = (productToIncrease) => {
@@ -33,7 +28,6 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                 : product
         );
         setCart(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
     
     const decreaseQuantity = (productToDecrease) => {
@@ -43,12 +37,10 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                 : product
         );
         setCart(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
     const cleanCart = () => {
         setCart([]);
-        localStorage.setItem('cart',JSON.stringify([]));
     };
 
     const goToPayment = () => {

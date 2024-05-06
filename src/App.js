@@ -12,9 +12,10 @@ import ProductTable from './components/ProductTable/ProductTable';
 import { searchProducts } from './dynamodb';
 import { Button, Modal } from 'react-bootstrap';
 import Carousel from './components/Carousel/Carousel';
-import { loadCart, saveCart, clearCart } from './components/Cart/LocalStorage';
 import Newsletter from './components/Newsletter/Newsletter';
 import Checkout from './components/Checkout/Checkout';
+import { CartProvider } from './components/Cart/CartContext';
+import { CartContext } from './components/Cart/CartContext';
 
 function App() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -22,8 +23,8 @@ function App() {
   const [products, setProducts] = useState([]);
   const [showCarousel, setShowCarousel] = useState(true);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cart, setCart] = useState(loadCart());
-  const [showNewsletter, setShowNewsletter] = useState(false);
+  const {cart, setCart, saveCart, clearCart} = useContext(CartContext);
+    const [showNewsletter, setShowNewsletter] = useState(false);
 
   const handleShowNewsletter = () => setShowNewsletter(true);
 
@@ -58,6 +59,7 @@ function App() {
 
   return (
     <AuthProvider>
+      <CartProvider>
       <Router>
         <div className="App">
         <NavBar setKey={setKey} handleSearch={handleSearch} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart} handleShowNewsletter={handleShowNewsletter}/>
@@ -79,6 +81,7 @@ function App() {
           </Modal>
         </div>
       </Router>
+      </CartProvider>
     </AuthProvider>
   );
 }

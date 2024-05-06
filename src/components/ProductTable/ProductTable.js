@@ -1,4 +1,5 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import {CartContext}  from '../Cart/CartContext';
 import alicate from './alicate.webp';
 import serrucho from './serrucho.webp';
 import destornillador from './destornillador.webp';
@@ -32,9 +33,12 @@ const images = {
   default: item,
 };
 
-function ProductTable({ products, addToCart }) {
+function ProductTable({ products }) {
   const [exchangeRate, setExchangeRate] = useState(null);
   const [error, setError] = useState(null);
+
+
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     axios.get('https://api.cmfchile.cl/api-sbifv3/recursos_api/dolar?apikey=ab7f92c29c235cc96ef34099b8ba9cea5731ad2a&formato=xml')

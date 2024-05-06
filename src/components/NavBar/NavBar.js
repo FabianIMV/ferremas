@@ -5,10 +5,12 @@ import logo from './logoferremas.svg';
 import user from './user.svg';
 import carticon from './cart.svg';
 import { AuthContext } from '../../AuthContext';
+import  {CartContext}  from '../Cart/CartContext';
 import Cart from '../Cart/Cart';
 
-const NavBar = ({ setKey, handleSearch, resetAppState, isCartOpen, setIsCartOpen }) => {
+const NavBar = ({ setKey, handleSearch, resetAppState }) => {
     const { isAuthenticated, logout } = useContext(AuthContext);
+    const { isCartOpen, setIsCartOpen } = useContext(CartContext);
     const [showButtons, setShowButtons] = useState(false);
     const searchInput = useRef();
     const dropdownRef = useRef();
@@ -30,8 +32,7 @@ const NavBar = ({ setKey, handleSearch, resetAppState, isCartOpen, setIsCartOpen
         return () => {
             document.removeEventListener("mousedown",handleClickOutside);
         };
-    },[]);
-
+    },[setIsCartOpen]);
 
     return (
         <div className="navbar">
