@@ -17,14 +17,14 @@ import axios from 'axios';
 import xml2js from 'xml2js';
 
 const images = {
-  alicate,
-  serrucho,
+  'alicate': alicate,
+  'serrucho': serrucho,
   'lentes de seguridad': lente,
   'overol de trabajo': overol,
-  destornillador,
+  'destornillador': destornillador,
   'casco de seguridad': casco,
-  cemento,
-  mortero,
+  'cemento': cemento,
+  'mortero': mortero,
   'plancha de zinc': plancha,
   'tornillo autoperforante': tornilloautoperforante,
   'tornillo madera': tornillomadera,
@@ -71,9 +71,9 @@ function ProductTable({ products, addToCart }) {
   }
 
   const handleAddToCart = (product, quantity) => {
-    product.stock -= quantity;
-
-    addToCart(product, quantity);
+    const updatedProduct = { ...product, stock: product.stock - quantity };
+    
+    addToCart({ ...updatedProduct, quantity });
   };
 
   return (

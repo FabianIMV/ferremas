@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Cart.css';
-import Checkout from '../Checkout/Checkout';
 
 const Cart = ({ isDropdown, setIsDropdown }) => {
     const [cart, setCart] = useState([]);
@@ -12,15 +11,24 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
         setCart(initialCart);
     }, []);
 
+    const addToCart = (productToAdd) => {
+        const existingProduct = cart.find(product => product.name === productToAdd.name);
+        if (existingProduct) {
+            increaseQuantity(existingProduct);
+        } else {
+            setCart(prevCart => [...prevCart, { ...productToAdd, quantity: 1 }]);
+        }
+    };
+    
     const removeFromCart = (productToRemove) => {
-        const updatedCart = cart.filter(product => product.tempId !== productToRemove.tempId);
+        const updatedCart = cart.filter(product => product.name !== productToRemove.name);
         setCart(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
-
+    
     const increaseQuantity = (productToIncrease) => {
         const updatedCart = cart.map(product =>
-            product.tempId === productToIncrease.tempId
+            product.name === productToIncrease.name
                 ? { ...product, quantity: product.quantity + 1, totalPrice: (product.quantity + 1) * product.price }
                 : product
         );
@@ -30,7 +38,7 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
     
     const decreaseQuantity = (productToDecrease) => {
         const updatedCart = cart.map(product =>
-            product.tempId === productToDecrease.tempId
+            product.name === productToDecrease.name
                 ? { ...product, quantity: product.quantity > 1 ? product.quantity - 1 : 1, totalPrice: (product.quantity > 1 ? product.quantity - 1 : 1) * product.price }
                 : product
         );
@@ -51,6 +59,7 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
         setIsDropdown(false);
         navigate('/checkout')
     }
+
     return (
         <div className={`cart-component ${isDropdown ? 'cart-dropdown' : ''}`}>
             {!isDropdown && <h2>Tu Carrito</h2>}

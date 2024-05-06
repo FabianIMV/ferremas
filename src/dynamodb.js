@@ -27,3 +27,23 @@ export function searchProducts(searchTerm = '', isCategorySearch = false) {
     });
   });
 }
+
+export function manejaStock(productName, newStock) {
+  const params = {
+    FunctionName: 'manejaStock',
+    Payload: JSON.stringify({ body: JSON.stringify({ productName, newStock }) }),
+  };
+
+  return new Promise((resolve, reject) => {
+    lambda.invoke(params, function(err, data) {
+      if (err) {
+        reject(err);
+      } else {
+        const payload = JSON.parse(data.Payload);
+        const body = JSON.parse(payload.body);
+        resolve(body);
+        console.log(body)
+      }
+    });
+  });
+}
