@@ -70,6 +70,12 @@ function ProductTable({ products, addToCart }) {
     productRows.push(products.slice(i, i + 3));
   }
 
+  const handleAddToCart = (product, quantity) => {
+    product.stock -= quantity;
+
+    addToCart(product, quantity);
+  };
+
   return (
     <div>
       {productRows.map((productRow, rowIndex) => (
@@ -83,8 +89,9 @@ function ProductTable({ products, addToCart }) {
                   <img src={imageSrc} alt="item" className="card-img-top"></img>
                   <div className="card-body">
                     <h5 className="card-title">{product.name}</h5>
-                    <p className="card-text">{exchangeRate && `$${Math.round(product.price * exchangeRate)}`} - USD {product.price} </p>                  
-                    <button className="btn btn-outline-secondary" onClick={() => addToCart(product)}>Agregar al carrito</button>
+                    <p className="card-text">{exchangeRate && `$${Math.round(product.price * exchangeRate)}`} - USD {product.price} </p>  
+                    <p className="card-text">Stock: {product.stock}</p>                
+                    <button className="btn btn-outline-secondary" onClick={() => handleAddToCart(product, 1)}>Agregar al carrito</button>
                     <button className="btn btn-outline-secondary">Comprar ahora</button>
                   </div>
                 </div>
