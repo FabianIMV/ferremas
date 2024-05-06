@@ -1,11 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {CartContext}  from './CartContext';
 import './Cart.css';
+import axios from 'axios';
+import xml2js from 'xml2js';
 
 const Cart = ({ isDropdown, setIsDropdown }) => {
+    const [exchangeRate, setExchangeRate] = useState(null);
     const { cart, setCart } = useContext(CartContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        axios.get('https://api.cmfchile.cl/api-sbifv3/recursos_api/dolar?apikey=ab7f92c29c235cc96ef34099b8ba9cea5731ad2a&formato=xml')
+        .then(response => {
+            xml2js.parseString(response.data, (err, result) => {
+                if (err) {
+                    console.error('Error parsing XML', err);
+                } else {
+                    const rate = parseFloat(result.IndicadoresFinancieros.Dolares[0].Dolar[0].Valor[0].replace(',', '.'));
+                    setExchangeRate(rate);
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching exchange rate.', error);
+        });
+    }, []);
 
     const addToCart = (productToAdd) => {
         const existingProduct = cart.find(product => product.name === productToAdd.name);
@@ -62,7 +82,7 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                     {cart.map((product, index) => (
                         <div key={index} className="cart-item-component">
                             <p>{product.name}</p>
-                            <p>Total: {product.totalPrice} USD</p>
+                            <p>Total: ${product.totalPrice} - USD ${exchangeRate ? Math.round(product.totalPrice / exchangeRate) : 'Cargando...'}</p>
                             <button onClick={() => removeFromCart(product)} className="btn btn-danger">Eliminar</button>
                             <button onClick={() => decreaseQuantity(product)} className="btn btn-secondary">-</button>
                             <p>{product.quantity}</p>
