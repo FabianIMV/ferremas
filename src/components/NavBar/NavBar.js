@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 import logo from './logoferremas.svg';
@@ -11,6 +11,7 @@ const NavBar = ({ setKey, handleSearch, resetAppState, isCartOpen, setIsCartOpen
     const { isAuthenticated, logout } = useContext(AuthContext);
     const [showButtons, setShowButtons] = useState(false);
     const searchInput = useRef();
+    const dropdownRef = useRef();
 
     const handleLogoClick = () => {
         setKey(prevKey => prevKey + 1);
@@ -18,6 +19,19 @@ const NavBar = ({ setKey, handleSearch, resetAppState, isCartOpen, setIsCartOpen
         handleSearch('');
         resetAppState();
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)){
+                setIsCartOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown",handleClickOutside);
+        };
+    },[]);
+
 
     return (
         <div className="navbar">
@@ -41,9 +55,11 @@ const NavBar = ({ setKey, handleSearch, resetAppState, isCartOpen, setIsCartOpen
             <div className="nav-buttons">
                 <div className="cart-container">
                     <img src={carticon} alt="Cart" className="cart" onClick={() => setIsCartOpen(!isCartOpen)} />
+                    <div className="dropdown" ref={dropdownRef}>
                     {isCartOpen && (
-                        <Cart isDropdown={isCartOpen} />
+                        <Cart isDropdown={isCartOpen} setIsDropdown={setIsCartOpen}/>
                     )}
+                    </div>
                     <img src={user} alt="User" className="user" onClick={() => setShowButtons(!showButtons)} />
 
                     {showButtons && (

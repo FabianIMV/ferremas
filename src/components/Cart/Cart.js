@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import './Cart.css';
 import Checkout from '../Checkout/Checkout';
 
-const Cart = ({ isDropdown }) => {
+const Cart = ({ isDropdown, setIsDropdown }) => {
     const [cart, setCart] = useState([]);
     const navigate = useNavigate();
 
@@ -47,6 +47,10 @@ const Cart = ({ isDropdown }) => {
         navigate('/Checkout');
     };
 
+    const handleGoToCart = () => {
+        setIsDropdown(false);
+        navigate('/checkout')
+    }
     return (
         <div className={`cart-component ${isDropdown ? 'cart-dropdown' : ''}`}>
             {!isDropdown && <h2>Tu Carrito</h2>}
@@ -72,9 +76,9 @@ const Cart = ({ isDropdown }) => {
                    )}
                    {isDropdown && (
                        <>
-                           <Link to="/cart">
-                               <button className="btn btn-primary">Ir al carrito</button>
-                           </Link>
+                          
+                               <button onClick={handleGoToCart} className="btn btn-primary">Ir al carrito</button>
+                  
                        </>
                    )}
                </>
