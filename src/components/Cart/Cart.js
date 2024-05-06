@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Cart.css';
-import PayCart from '../PayCart/PayCart';
+import Checkout from '../Checkout/Checkout';
 
 const Cart = ({ isDropdown }) => {
     const [cart, setCart] = useState([]);
@@ -44,7 +44,7 @@ const Cart = ({ isDropdown }) => {
     };
 
     const goToPayment = () => {
-        navigate('/PayCart');
+        navigate('/Checkout');
     };
 
     return (

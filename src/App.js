@@ -14,6 +14,7 @@ import { Button, Modal } from 'react-bootstrap';
 import Carousel from './components/Carousel/Carousel';
 import { loadCart, saveCart, clearCart } from './components/Cart/LocalStorage';
 import Newsletter from './components/Newsletter/Newsletter';
+import Checkout from './components/Checkout/Checkout';
 
 function App() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -68,6 +69,7 @@ function App() {
             <Route path="/items" element={<Items />} />
             <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} showCarousel={showCarousel} setShowCarousel={setShowCarousel} />} />
             <Route path="/carousel" element={<Carousel />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
           <Button className="subscribe-button" onClick={handleShowNewsletter}>Suscríbete</Button>
           <Modal show={showNewsletter} onHide={handleCloseNewsletter}>
