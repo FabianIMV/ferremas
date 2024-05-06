@@ -1,58 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import Login from '../Login/Login';
 
 const Checkout = () => {
+    const [showTransferDetails, setShowTransferDetails] = useState(false);
+    const [showTransbankDetails, setShowTransbankDetails] = useState(false);
+
+    const handleTransferClick = () => {
+        setShowTransferDetails(true);
+        setShowTransbankDetails(false);
+    };
+
+    const handleTransbankClick = () => {
+        setShowTransbankDetails(true);
+        setShowTransferDetails(false);
+    };
+
     return (
         <Container>
             <Row>
                 <Col md={6}>
-                    <h2>Detalles de facturación</h2>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Nombre completo</Form.Label>
-                            <Form.Control type="text" placeholder="Introduce tu nombre completo" />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="Introduce tu email" />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Dirección</Form.Label>
-                            <Form.Control type="text" placeholder="Introduce tu dirección" />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Ciudad</Form.Label>
-                            <Form.Control type="text" placeholder="Introduce tu ciudad" />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Código Postal</Form.Label>
-                            <Form.Control type="text" placeholder="Introduce tu código postal" />
-                        </Form.Group>
-                    </Form>
+                    <h2>Total de compra</h2>
+                    {}
                 </Col>
                 <Col md={6}>
                     <h2>Detalles de pago</h2>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Nombre en la tarjeta</Form.Label>
-                            <Form.Control type="text" placeholder="Introduce el nombre en la tarjeta" />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Número de tarjeta</Form.Label>
-                            <Form.Control type="text" placeholder="Introduce el número de tarjeta" />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Fecha de expiración</Form.Label>
-                            <Form.Control type="text" placeholder="MM/YY" />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Código de seguridad</Form.Label>
-                            <Form.Control type="text" placeholder="CVV" />
-                        </Form.Group>
-                    </Form>
-                    <Button variant="primary" type="submit">
-                        Realizar el pago
+                    <Button variant="primary" onClick={handleTransferClick}>
+                        Pagar con transferencia
                     </Button>
+                    {showTransferDetails && (
+                        <div>
+                            <h4>Transferir a la siguiente cuenta bancaria:</h4>
+                            <p>Ferremas SpA Chile</p>
+                            <p>76.985.422-4</p>
+                            <p>Banco Chile</p>
+                            <p>Cuenta Corriente</p>
+                            <p>0065-3234-1122</p>
+                            <p>contacto@ferremas.cl</p>
+                        </div>
+                    )}
+                    <Button variant="primary" onClick={handleTransbankClick}>
+                        Pagar con Webpay
+                    </Button>
+                    {showTransbankDetails && <div>Incluir datos de Webpay</div>}
+        
+                    <h2>Iniciar sesión para aplicar descuento</h2>
+                    <Login />
                 </Col>
             </Row>
         </Container>
