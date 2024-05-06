@@ -28,7 +28,6 @@ function App() {
   const handleShowNewsletter = () => setShowNewsletter(true);
 
   useEffect(() => {
-    console.log('showNewsletter:', showNewsletter);
   }, [showNewsletter]);
 
   const handleCloseNewsletter = () => setShowNewsletter(false);

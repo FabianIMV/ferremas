@@ -16,7 +16,7 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
         if (existingProduct) {
             increaseQuantity(existingProduct);
         } else {
-            setCart(prevCart => [...prevCart, { ...productToAdd, quantity: 1 }]);
+            setCart(prevCart => [...prevCart, { ...productToAdd, quantity: 1, totalPrice: productToAdd.price }]);
         }
     };
     
