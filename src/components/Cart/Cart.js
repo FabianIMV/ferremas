@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Cart.css';
+import PayCart from '../PayCart/PayCart';
 
 const Cart = ({ isDropdown }) => {
     const [cart, setCart] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const initialCart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -36,6 +38,15 @@ const Cart = ({ isDropdown }) => {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
+    const cleanCart = () => {
+        setCart([]);
+        localStorage.setItem('cart',JSON.stringify([]));
+    };
+
+    const goToPayment = () => {
+        navigate('/PayCart');
+    };
+
     return (
         <div className={`cart-component ${isDropdown ? 'cart-dropdown' : ''}`}>
             {!isDropdown && <h2>Tu Carrito</h2>}
@@ -52,19 +63,23 @@ const Cart = ({ isDropdown }) => {
                             <p>{product.quantity}</p>
                             <button onClick={() => increaseQuantity(product)} className="btn btn-secondary">+</button>
                         </div>
-                    ))}
-                    {isDropdown && (
-                        <>
-                            <Link to="/cart">
-                                <button className="btn btn-primary">Ir al carrito</button>
-                            </Link>
-                            <button className="btn btn-success">Pagar carrito</button>
-                        </>
-                    )}
-                </>
-            )}
-        </div>
-    );
+                   ))}
+                   {!isDropdown && (
+                       <>
+                           <button onClick={cleanCart} className="btn btn-warning">Vaciar carrito</button>
+                           <button onClick={goToPayment} className="btn btn-success">Pagar carrito</button>
+                       </>
+                   )}
+                   {isDropdown && (
+                       <>
+                           <Link to="/cart">
+                               <button className="btn btn-primary">Ir al carrito</button>
+                           </Link>
+                       </>
+                   )}
+               </>
+           )}
+       </div>
+   );
 };
-
 export default Cart;
