@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import Login from '../Login/Login';
 import Cart from '../Cart/Cart';
+import './Checkout.css';
 
 const Checkout = () => {
     const [showTransferDetails, setShowTransferDetails] = useState(false);
@@ -23,7 +24,6 @@ const Checkout = () => {
                 <Col md={6}>
                     <h2>Total de compra</h2>
                     <Cart />
-                    {}
                 </Col>
                 <Col md={6}>
                     <h2>Detalles de pago</h2>
