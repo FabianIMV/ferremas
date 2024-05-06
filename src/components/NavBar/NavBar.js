@@ -24,7 +24,9 @@ const NavBar = ({ setKey, handleSearch, resetAppState }) => {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)){
+            const addToCartButton = document.querySelector('.add-to-cart-button-classname');
+    
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target) && event.target !== addToCartButton){
                 setIsCartOpen(false);
             }
         }
@@ -33,6 +35,7 @@ const NavBar = ({ setKey, handleSearch, resetAppState }) => {
             document.removeEventListener("mousedown",handleClickOutside);
         };
     },[setIsCartOpen]);
+    
 
     return (
         <div className="navbar">
@@ -58,11 +61,10 @@ const NavBar = ({ setKey, handleSearch, resetAppState }) => {
                     <img src={carticon} alt="Cart" className="cart" onClick={() => setIsCartOpen(!isCartOpen)} />
                     <div className="dropdown" ref={dropdownRef}>
                     {isCartOpen && (
-                        <Cart isDropdown={isCartOpen} setIsDropdown={setIsCartOpen}/>
+                        <Cart isDropdown={isCartOpen} setIsDropdown={setIsCartOpen} />
                     )}
                     </div>
                     <img src={user} alt="User" className="user" onClick={() => setShowButtons(!showButtons)} />
-
                     {showButtons && (
                         isAuthenticated ? (
                             <button onClick={logout} className="btn btn-primary btn-block mb-4 iniciar-sesion">Cerrar sesión</button>

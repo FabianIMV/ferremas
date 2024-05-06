@@ -37,8 +37,7 @@ function ProductTable({ products }) {
   const [exchangeRate, setExchangeRate] = useState(null);
   const [error, setError] = useState(null);
 
-
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, setIsCartOpen } = useContext(CartContext);
 
   useEffect(() => {
     axios.get('https://api.cmfchile.cl/api-sbifv3/recursos_api/dolar?apikey=ab7f92c29c235cc96ef34099b8ba9cea5731ad2a&formato=xml')
@@ -78,6 +77,7 @@ function ProductTable({ products }) {
     const updatedProduct = { ...product, stock: product.stock - quantity };
     
     addToCart({ ...updatedProduct, quantity });
+    setIsCartOpen(true);
   };
 
   return (
