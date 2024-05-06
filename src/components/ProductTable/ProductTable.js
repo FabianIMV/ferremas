@@ -74,9 +74,9 @@ function ProductTable({ products }) {
   }
 
   const handleAddToCart = (product, quantity) => {
-    const updatedProduct = { ...product, stock: product.stock - quantity };
+    const updatedProduct = { ...product, stock: product.stock - quantity, price: product.price };
     
-    addToCart({ ...updatedProduct, quantity });
+    addToCart({ ...updatedProduct, quantity, totalPrice: quantity * product.price });
     setIsCartOpen(true);
   };
 
