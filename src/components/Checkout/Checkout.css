@@ -10,6 +10,9 @@ h2 {
 button {
     margin: 1rem 0;
 }
+.login-discount {
+    margin-top: -0,25rem!important;
+}
 
 button + div {
     margin-top: 1rem;

@@ -47,7 +47,9 @@ const Checkout = () => {
                     {showTransbankDetails && <div>Incluir datos de Webpay</div>}
         
                     <h2>Iniciar sesión para aplicar descuento</h2>
+                    <div className="login-discount">
                     <Login />
+                    </div>
                 </Col>
             </Row>
         </Container>
