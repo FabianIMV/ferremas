@@ -15,6 +15,8 @@ import tornillomadera from '../ProductTable/tornillomadera.webp';
 import tornillotecho from '../ProductTable/tornillotecho.webp';
 import item from '../ProductTable/item.png';
 import './Carousel.css';
+import axios from 'axios';
+import xml2js from 'xml2js';
 
 async function getRandomProducts() {
   try {
@@ -29,6 +31,8 @@ async function getRandomProducts() {
 
 function ProductCarousel() {
   const [products, setProducts] = useState([]);
+  const [exchangeRate, setExchangeRate] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -38,7 +42,26 @@ function ProductCarousel() {
 
     fetchProducts();
   }, []);
-
+  useEffect(() => {
+    axios.get('https://api.cmfchile.cl/api-sbifv3/recursos_api/dolar?apikey=ab7f92c29c235cc96ef34099b8ba9cea5731ad2a&formato=xml')
+    .then(response => {
+      xml2js.parseString(response.data, (err, result) => {
+        if (err) {
+          console.error('Error parsing XML', err);
+          setError('Error parsing XML');
+        } else {
+          console.log(result)
+          const rate = parseFloat(result.IndicadoresFinancieros.Dolares[0].Dolar[0].Valor[0].replace(',', '.'));
+          setExchangeRate(rate);
+          console.log(rate);
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching exchange rate.', error);
+      setError('Error fetching exchange rate.');
+    });
+  }, []);
   return (
     <Carousel>
       {products.map((product, idx) => {
@@ -79,6 +102,7 @@ function ProductCarousel() {
               alt={product.name}
             />
             <h3 className="">{product.name}</h3>
+            <h4 className="">${product.price} - USD ${Math.round(product.price / exchangeRate)} </h4>
             <Carousel.Caption className="bg-dark p-3 rounded custom-caption">
               
             </Carousel.Caption>
