@@ -3,13 +3,11 @@
   border-radius: 0.25rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   background-color: #f8f9fa;
-  width: 800;
 }
 
 .cart-dropdown {
   width: 800px;
 }
-
 .cart-item-component {
   display: flex;
   justify-content: flex-start;
@@ -19,13 +17,16 @@
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   background-color: #ffffff;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 .colorbutton- {
   background-color: #FF7F7F !important; 
+  margin-left:20px;
+  margin-right:-10px;
 }
 .colorbuttonplus {
   background-color: #20B2AA !important; 
+  margin-left:-10px;
 }
 
 .cart-item-component p.product-name {

@@ -5,7 +5,7 @@ import { CognitoUser, AuthenticationDetails, CognitoUserPool } from 'amazon-cogn
 import { AuthContext } from '../../AuthContext';
 import Alert from 'react-bootstrap/Alert';
 
-const Login = () => {
+const Login = ({showTitle = true}) => {
     const navigate = useNavigate();
     const { setIsAuthenticated, setUsername: setAuthUsername } = useContext(AuthContext);
     const [errorMessage, setErrorMessage] = useState('');
@@ -104,7 +104,7 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h2>Iniciar Sesión</h2>
+           {showTitle && <h2>Iniciar Sesión</h2>}
             <form onSubmit={handleSubmit} className="login-form">
                 <label>
                     Nombre de Usuario:
