@@ -27,6 +27,7 @@
 }
 
 .cart-item-component .btn-danger {
+  flex: 0.2;
   color: #fff;
   background-color: #dc3545;
   border-color: #dc3545;
