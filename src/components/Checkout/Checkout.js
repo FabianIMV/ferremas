@@ -27,28 +27,37 @@ const Checkout = () => {
                 </Col>
                 <Col md={6}>
                     <h2>Detalles de pago</h2>
-                    <Button variant="primary" onClick={handleTransferClick}>
-                        Pagar con transferencia
-                    </Button>
-                    {showTransferDetails && (
-                        <div>
-                            <h4>Transferir a la siguiente cuenta bancaria:</h4>
-                            <p>Ferremas SpA Chile</p>
-                            <p>76.985.422-4</p>
-                            <p>Banco Chile</p>
-                            <p>Cuenta Corriente</p>
-                            <p>0065-3234-1122</p>
-                            <p>contacto@ferremas.cl</p>
-                        </div>
-                    )}
-                    <Button variant="primary" onClick={handleTransbankClick}>
-                        Pagar con Webpay
-                    </Button>
-                    {showTransbankDetails && <div>Incluir datos de Webpay</div>}
-        
+                    <div id="button-container">
+                        {!showTransbankDetails && (
+                            <div>
+                                <Button variant="primary" onClick={handleTransferClick}>
+                                    Pagar con transferencia
+                                </Button>
+                                {showTransferDetails && (
+                                    <div>
+                                        <h4>Transferir a la siguiente cuenta bancaria:</h4>
+                                        <p>Ferremas SpA Chile</p>
+                                        <p>76.985.422-4</p>
+                                        <p>Banco Chile</p>
+                                        <p>Cuenta Corriente</p>
+                                        <p>0065-3234-1122</p>
+                                        <p>contacto@ferremas.cl</p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {!showTransferDetails && (
+                            <div>
+                                <Button variant="primary" onClick={handleTransbankClick}>
+                                    Pagar con Webpay
+                                </Button>
+                                {showTransbankDetails && <div>Incluir datos de Webpay</div>}
+                            </div>
+                        )}
+                    </div>
                     <h2>Iniciar sesión para aplicar descuento</h2>
                     <div className="login-discount">
-                    <Login />
+                        <Login />
                     </div>
                 </Col>
             </Row>
