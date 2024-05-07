@@ -98,10 +98,11 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                     ))}
                     {!isDropdown && (
                         <div className="cart-buttons">
-                            <div>
+                            <div className="total-payment-container">
                                 <button onClick={cleanCart} className="btn btn-warning clean-cart-button">Vaciar carrito</button>
                                 <strong>Total: ${totalPayment} - USD ${exchangeRate ? Math.round(totalPayment / exchangeRate) : ''}</strong>
                             </div>
+
                         </div>
                     )}
                     {isDropdown && (

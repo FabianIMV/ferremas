@@ -50,16 +50,11 @@
 .cart-item-component p:last-child {
   margin-left: auto;
 }
-
-.cart-buttons{
+.total-payment-container {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  align-items: center;
 }
-.total-payment-container {
-  align-items: flex-end;
-  justify-content: flex-end;
-} 
 .quantity-buttons-cntr {
   align-items: center;
   display: flex;
