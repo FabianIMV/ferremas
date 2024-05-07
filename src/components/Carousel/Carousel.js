@@ -78,8 +78,9 @@ function ProductCarousel() {
               src={imageSrc}
               alt={product.name}
             />
+            <h3 className="">{product.name}</h3>
             <Carousel.Caption className="bg-dark p-3 rounded custom-caption">
-              <h3 className="text-light">{product.name}</h3>
+              
             </Carousel.Caption>
             <div className="product-description bg-dark p-3 rounded custom-caption">
               <p className="text-light">{product.description}</p>
