@@ -93,21 +93,21 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                                 <p>{product.quantity}</p>
                                 <button onClick={() => increaseQuantity(product)} className="btn btn-secondary colorbuttonplus">+</button>
                             </div>
-                            <p className="product-price">${product.totalPrice} - USD ${exchangeRate ? Math.round(product.totalPrice / exchangeRate) : ''}</p>
+                            <p className="product-price">${product.totalPrice} - USD ${exchangeRate ? Math.round(product.totalPrice / exchangeRate) : '...'}</p>
                         </div>
                     ))}
                     {!isDropdown && (
                         <div className="cart-buttons">
                             <div className="total-payment-container">
                                 <button onClick={cleanCart} className="btn btn-warning clean-cart-button">Vaciar carrito</button>
-                                <strong>Total: ${totalPayment} - USD ${exchangeRate ? Math.round(totalPayment / exchangeRate) : ''}</strong>
+                                <strong>Total: ${totalPayment} - USD ${exchangeRate ? Math.round(totalPayment / exchangeRate) : '...'}</strong>
                             </div>
 
                         </div>
                     )}
                     {isDropdown && (
                         <>
-                            <button onClick={handleGoToCart} className="btn btn-primary">Ir al carrito</button>
+                            <button onClick={handleGoToCart} className="btn btn-primary gotocart">Ir al carrito</button>
                         </>
                     )}
                 </>
