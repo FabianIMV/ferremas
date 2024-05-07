@@ -12,13 +12,33 @@
 
 .cart-item-component {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 1rem;
   padding: 10px;
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   background-color: #ffffff;
+  flex-wrap: wrap;
+}
+.colorbutton- {
+  background-color: #FF7F7F !important; 
+}
+.colorbuttonplus {
+  background-color: #20B2AA !important; 
+}
+
+.cart-item-component p.product-name {
+  margin: 0;
+  font-weight: 500;
+  max-width: 200px;
+  white-space: normal;
+  word-wrap: break-word;
+  flex: 1 1 auto;
+}
+.button-container {
+  align-self: center;
+  flex: 1 0 auto;
 }
 
 .cart-item-component p {
@@ -26,12 +46,26 @@
   font-weight: 500;
 }
 
-.cart-item-component .btn-danger {
-  flex: 0.2;
-  color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545;
+.cart-item-component p:last-child {
+  margin-left: auto;
 }
+
+.cart-buttons{
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.quantity-buttons-cntr {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.quantity-buttons-cntr p {
+  width: 30px;
+  text-align: center;
+}
+
 @media (min-width: 1025px) {
     .h-custom {
       height: 100vh !important;

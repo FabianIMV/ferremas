@@ -85,24 +85,25 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                 <>
                     {cart.map((product, index) => (
                         <div key={index} className="cart-item-component">
-                            <p>{product.name}</p>
-                            <button onClick={() => decreaseQuantity(product)} className="btn btn-secondary">-</button>
+                            <p className="product-name">{product.name}</p>
+                            <div className="quantity-buttons-cntr">
+                            <button onClick={() => decreaseQuantity(product)} className="btn btn-secondary colorbutton-">-</button>
                             <p>{product.quantity}</p>
-                            <button onClick={() => increaseQuantity(product)} className="btn btn-secondary">+</button>
-                            <p>Total: ${product.totalPrice} - USD ${exchangeRate ? Math.round(product.totalPrice / exchangeRate) : ''}</p>
+                            <button onClick={() => increaseQuantity(product)} className="btn btn-secondary colorbuttonplus">+</button>
+                            </div>
+                            <p className="product-price">${product.totalPrice} - USD ${exchangeRate ? Math.round(product.totalPrice / exchangeRate) : ''}</p>
                         </div>
                     ))}
                     {!isDropdown && (
-                        <>
+                        <div className="cart-buttons">
                             <button onClick={cleanCart} className="btn btn-warning">Vaciar carrito</button>
-                            <button onClick={goToPayment} className="btn btn-success">Pagar carrito</button>
-                        </>
+                        </div>
                     )}
                     {isDropdown && (
                         <>
-
+    
                             <button onClick={handleGoToCart} className="btn btn-primary">Ir al carrito</button>
-
+    
                         </>
                     )}
                 </>
