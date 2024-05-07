@@ -30,10 +30,12 @@
 .input-group {
     position: relative;
     flex: 1;
+    align-items: center !important;
 }
 
 .search-input {
     flex: 1 1 auto;
+    height: 38px;
     max-height: 100px;
     overflow: auto;
 }
