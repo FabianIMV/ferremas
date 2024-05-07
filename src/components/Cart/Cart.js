@@ -23,7 +23,7 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                 });
             })
             .catch(error => {
-                console.error('Error fetching exchange rate.', error);
+                console.error('Error trayendo tasa de cambios.', error);
             });
     }, []);
 
@@ -75,10 +75,12 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
         setIsDropdown(false);
         navigate('/checkout')
     }
+    const totalPayment = cart.reduce((total, product) => total + product.totalPrice, 0);
+
 
     return (
         <div className={`cart-component ${isDropdown ? 'cart-dropdown' : ''}`}>
-            {!isDropdown && <h2>Tu Carrito</h2>}
+            {!isDropdown && <h2></h2>}
             {cart.length === 0 ? (
                 <p>No hay productos en el carrito.</p>
             ) : (
@@ -87,23 +89,24 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                         <div key={index} className="cart-item-component">
                             <p className="product-name">{product.name}</p>
                             <div className="quantity-buttons-cntr">
-                            <button onClick={() => decreaseQuantity(product)} className="btn btn-secondary colorbutton-">-</button>
-                            <p>{product.quantity}</p>
-                            <button onClick={() => increaseQuantity(product)} className="btn btn-secondary colorbuttonplus">+</button>
+                                <button onClick={() => decreaseQuantity(product)} className="btn btn-secondary colorbutton-">-</button>
+                                <p>{product.quantity}</p>
+                                <button onClick={() => increaseQuantity(product)} className="btn btn-secondary colorbuttonplus">+</button>
                             </div>
                             <p className="product-price">${product.totalPrice} - USD ${exchangeRate ? Math.round(product.totalPrice / exchangeRate) : ''}</p>
                         </div>
                     ))}
                     {!isDropdown && (
                         <div className="cart-buttons">
-                            <button onClick={cleanCart} className="btn btn-warning">Vaciar carrito</button>
+                            <div>
+                                <button onClick={cleanCart} className="btn btn-warning clean-cart-button">Vaciar carrito</button>
+                                <strong>Total: ${totalPayment} - USD ${exchangeRate ? Math.round(totalPayment / exchangeRate) : ''}</strong>
+                            </div>
                         </div>
                     )}
                     {isDropdown && (
                         <>
-    
                             <button onClick={handleGoToCart} className="btn btn-primary">Ir al carrito</button>
-    
                         </>
                     )}
                 </>

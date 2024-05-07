@@ -53,9 +53,13 @@
 
 .cart-buttons{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 20px;
 }
+.total-payment-container {
+  align-items: flex-end;
+  justify-content: flex-end;
+} 
 .quantity-buttons-cntr {
   align-items: center;
   display: flex;
