@@ -1,0 +1,11 @@
+.buttonsproducttable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: flex;
+    height: auto;
+}
+
+.buttonsproducttable .btn {
+    margin: 0 5px;
+}

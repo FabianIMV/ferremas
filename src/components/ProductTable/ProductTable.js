@@ -16,6 +16,7 @@ import item from './item.png';
 import '../../App.css';
 import axios from 'axios';
 import xml2js from 'xml2js';
+import './ProductTable.css';
 
 const images = {
   'alicate': alicate,
@@ -105,9 +106,11 @@ function ProductTable({ products }) {
                   <div className="card-body">
                     <h5 className="card-title">{product.name}</h5>
                     <p className="card-text">{exchangeRate && `${product.price} - USD ${Math.round(product.price / exchangeRate)}`}</p>
-                    <p className="card-text">Stock: {product.stock}</p>                
+                    <p className="card-text">Stock: {product.stock}</p>     
+                    <div className="buttonsproducttable">           
                     <button className="btn btn-outline-secondary" onClick={() => handleAddToCart(product, 1)}>Agregar al carrito</button>
                     <button className="btn btn-outline-secondary">Comprar ahora</button>
+                  </div>
                   </div>
                 </div>
               </div>

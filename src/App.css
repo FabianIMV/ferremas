@@ -45,7 +45,7 @@
   text-align: center;
   position: sticky;
   z-index: 1; 
-  margin-top: 10px !important;
+  margin-top: 15px !important;
 }
 
 .product-table-container {
@@ -64,8 +64,8 @@
   padding: 20px;
   min-height: 100px;
   text-align: center;
+  margin-top: -80px;
 }
-
 
 .subscribe-button {
   position: fixed !important;
