@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
 
@@ -30,6 +31,11 @@ const DebitCardPayment = () => {
                     <Button variant="primary" type="submit">
                         Pagar
                     </Button>
+                    <Link to="/webpaycards">
+                        <Button variant="secondary" className="mt-3">
+                            Volver atrás
+                        </Button>
+                    </Link>
                 </Form>
             </Card.Body>
         </Card>

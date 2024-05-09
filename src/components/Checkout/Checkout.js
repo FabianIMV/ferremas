@@ -5,21 +5,13 @@ import { AuthContext } from '../../AuthContext';
 import Login from '../Login/Login';
 import Cart from '../Cart/Cart';
 import './Checkout.css';
-import WebpayCards from '../WebpayCards/WebpayCards';
 
 const Checkout = () => {
     const { isAuthenticated } = useContext(AuthContext);
     const [showTransferDetails, setShowTransferDetails] = useState(false);
-    const [showTransbankDetails, setShowTransbankDetails] = useState(false);
 
     const handleTransferClick = () => {
         setShowTransferDetails(!showTransferDetails);
-        setShowTransbankDetails(false);
-    };
-
-    const handleTransbankClick = () => {
-        setShowTransbankDetails(!showTransbankDetails);
-        setShowTransferDetails(false);
     };
 
     return (
@@ -37,7 +29,7 @@ const Checkout = () => {
                                 Pagar con transferencia
                             </Button>
                             <Button variant="primary">
-                                <Link to="/webpaycards">Pagar con Webpay</Link>
+                                <Link to="/webpaycards" style={{ color: '#fff' }}>Pagar con Webpay</Link>
                             </Button>
                         </Col>
                     </Row>
@@ -50,16 +42,6 @@ const Checkout = () => {
                             <p>Cuenta Corriente</p>
                             <p>0065-3234-1122</p>
                             <p>contacto@ferremas.cl</p>
-                        </div>
-                    )}
-                    {showTransbankDetails && (
-                        <div className="payment-details-cards">
-                            <Link to="./creditcardpayment">
-                                <Button variant="primary">Pagar con Tarjeta de Crédito</Button>
-                            </Link>
-                            <Link to="./debitcardpayment">
-                                <Button variant="primary">Pagar con Tarjeta de Débito</Button>
-                            </Link>
                         </div>
                     )}
                     {!isAuthenticated && (

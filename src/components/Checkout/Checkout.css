@@ -71,3 +71,9 @@ button + div {
         margin: 0 2rem;
     }
 }
+
+
+a {
+    color: #fff;
+    text-decoration: none;
+}

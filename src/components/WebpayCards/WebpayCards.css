@@ -1,13 +1,22 @@
-
 .payment-details-cards {
+    margin-top: 50px;
     display: flex;
     justify-content: center; 
     flex-direction: row;
     align-items: center;
 }
+
+.card-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+}
+
 .payment-details-cards a {
     margin: 0 0.5rem;
 }
+
 .payment-details-cards .btn-primary {
     background-color: #ff7f7f;
     color: white;
