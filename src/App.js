@@ -16,6 +16,9 @@ import Newsletter from './components/Newsletter/Newsletter';
 import Checkout from './components/Checkout/Checkout';
 import { CartProvider } from './components/Cart/CartContext';
 import { CartContext } from './components/Cart/CartContext';
+import CreditCardPayment from './components/WebpayCards/CreditCardPayment';
+import DebitCardPayment from './components/WebpayCards/DebitCardPayment';
+import WebpayCards from './components/WebpayCards/WebpayCards'; 
 
 function App() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -23,8 +26,8 @@ function App() {
   const [products, setProducts] = useState([]);
   const [showCarousel, setShowCarousel] = useState(true);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const {cart, setCart, saveCart, clearCart} = useContext(CartContext);
-    const [showNewsletter, setShowNewsletter] = useState(false);
+  const { cart, setCart, saveCart, clearCart } = useContext(CartContext);
+  const [showNewsletter, setShowNewsletter] = useState(false);
 
   const handleShowNewsletter = () => setShowNewsletter(true);
 
@@ -60,27 +63,30 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-      <Router>
-        <div className="App">
-        <NavBar setKey={setKey} handleSearch={handleSearch} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart} handleShowNewsletter={handleShowNewsletter}/>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/cart" element={<Cart cart={cart} onPurchase={handlePurchase} />} />
-            <Route path="/items" element={<Items />} />
-            <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} showCarousel={showCarousel} setShowCarousel={setShowCarousel} />} />
-            <Route path="/carousel" element={<Carousel />} />
-            <Route path="/checkout" element={<Checkout />} />
-          </Routes>
-          <Button className="subscribe-button" onClick={handleShowNewsletter}>Suscríbete</Button>
-          <Modal show={showNewsletter} onHide={handleCloseNewsletter}>
-           
-            <Modal.Body>
-              <Newsletter handleClose={handleCloseNewsletter} />
-            </Modal.Body>
-          </Modal>
-        </div>
-      </Router>
+        <Router>
+          <div className="App">
+            <NavBar setKey={setKey} handleSearch={handleSearch} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart} handleShowNewsletter={handleShowNewsletter} />
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/cart" element={<Cart cart={cart} onPurchase={handlePurchase} />} />
+              <Route path="/items" element={<Items />} />
+              <Route path="/" element={<Home key={key} addToCart={addToCart} products={products} setProducts={setProducts} handleSearch={handleSearch} showCarousel={showCarousel} setShowCarousel={setShowCarousel} />} />
+              <Route path="/carousel" element={<Carousel />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/webpaycards" element={<WebpayCards />} />
+              <Route path="/creditcardpayment" element={<CreditCardPayment />} />
+              <Route path="/debitcardpayment" element={<DebitCardPayment />} />
+            </Routes>
+            <Button className="subscribe-button" onClick={handleShowNewsletter}>Suscríbete</Button>
+            <Modal show={showNewsletter} onHide={handleCloseNewsletter}>
+
+              <Modal.Body>
+                <Newsletter handleClose={handleCloseNewsletter} />
+              </Modal.Body>
+            </Modal>
+          </div>
+        </Router>
       </CartProvider>
     </AuthProvider>
   );

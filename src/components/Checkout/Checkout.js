@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../AuthContext';
 import Login from '../Login/Login';
 import Cart from '../Cart/Cart';
 import './Checkout.css';
+import WebpayCards from '../WebpayCards/WebpayCards';
 
 const Checkout = () => {
     const { isAuthenticated } = useContext(AuthContext);
@@ -34,8 +36,8 @@ const Checkout = () => {
                             <Button variant="primary" onClick={handleTransferClick}>
                                 Pagar con transferencia
                             </Button>
-                            <Button variant="primary" onClick={handleTransbankClick}>
-                                Pagar con Webpay
+                            <Button variant="primary">
+                                <Link to="/webpaycards">Pagar con Webpay</Link>
                             </Button>
                         </Col>
                     </Row>
@@ -50,7 +52,16 @@ const Checkout = () => {
                             <p>contacto@ferremas.cl</p>
                         </div>
                     )}
-                    {showTransbankDetails && <div className="payment-details">Incluir datos de Webpay</div>}
+                    {showTransbankDetails && (
+                        <div className="payment-details-cards">
+                            <Link to="./creditcardpayment">
+                                <Button variant="primary">Pagar con Tarjeta de Crédito</Button>
+                            </Link>
+                            <Link to="./debitcardpayment">
+                                <Button variant="primary">Pagar con Tarjeta de Débito</Button>
+                            </Link>
+                        </div>
+                    )}
                     {!isAuthenticated && (
                         <div className="login-discount">
                             <h3>Iniciar sesión para aplicar descuento</h3>
