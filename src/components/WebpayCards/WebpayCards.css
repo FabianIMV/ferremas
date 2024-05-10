@@ -22,3 +22,27 @@
     color: white;
     border-color: #ff7f7f;
 }
+
+.credit-card-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+.credit-card-form .card {
+    width: 100%;
+    max-width: 400px;
+}
+
+.debit-card-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+.debit-card-form .card {
+    width: 100%;
+    max-width: 400px;
+}
