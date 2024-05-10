@@ -7,7 +7,7 @@ import xml2js from 'xml2js';
 
 const Cart = ({ isDropdown, setIsDropdown }) => {
     const [exchangeRate, setExchangeRate] = useState(null);
-    const { cart, setCart } = useContext(CartContext);
+    const { cart, setCart,setTotal } = useContext(CartContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,6 +26,11 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                 console.error('Error trayendo tasa de cambios.', error);
             });
     }, []);
+
+    useEffect(() => {
+        const totalPayment = cart.reduce((total, product) => total + product.totalPrice, 0);
+        setTotal(totalPayment);
+    }, [cart, setTotal]);
 
     const addToCart = (productToAdd) => {
         const existingProduct = cart.find(product => product.name === productToAdd.name);

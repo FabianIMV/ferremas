@@ -3,11 +3,13 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { AuthContext } from '../../AuthContext';
 import Login from '../Login/Login';
 import Cart from '../Cart/Cart';
+import CartContext from '../Cart/CartContext';
 import './Checkout.css';
 
 const Checkout = () => {
     const { isAuthenticated } = useContext(AuthContext);
     const [showTransferDetails, setShowTransferDetails] = useState(false);
+    const { total } = useContext(CartContext);
 
     const handleTransferClick = () => {
         setShowTransferDetails(!showTransferDetails);
@@ -16,16 +18,21 @@ const Checkout = () => {
     const formRef = useRef(null);
 
     const handleWebpayClick = async () => {
-        if (formRef.current) {
-            formRef.current.submit();
-        }
-
         const response = await initiateWebpayTransaction({
             buy_order: 'OrdenCompra21957',
             session_id: 'sesion1234564',
-            amount: 1000,
+            amount: total,
             return_url: 'https://localhost:3001/success'
         });
+
+        if (response.token) {
+            if (formRef.current) {
+                formRef.current.token_ws.value = response.token;
+                formRef.current.submit();
+            }
+        } else {
+            console.error('No se pudo obtener el token de Webpay');
+        }
 
         console.log(response);
     };
@@ -34,7 +41,7 @@ const Checkout = () => {
         <Container>
             <Row>
                 <Col md={6}>
-                    <h2>Total de compra</h2>
+                    <h2>Total de compra: ${total}</h2>
                     <Cart />
                 </Col>
                 <Col md={6}>
@@ -49,7 +56,7 @@ const Checkout = () => {
                                     Pagar con Webpay
                                 </Button>
                                 <form ref={formRef} action="https://webpay3gint.transbank.cl/webpayserver/initTransaction" method="POST" style={{ display: 'none' }}>
-                                    <input type="hidden" name="token_ws" value="01ab941c442b63e44c729a2e603bd5ef011aa8bbc26ca7fbfb5bf5ab76365430" />
+                                    <input type="hidden" name="token_ws" />
                                     <input type="submit" value="Pagar" />
                                 </form>
                             </>
