@@ -22,7 +22,7 @@ const Checkout = () => {
             buy_order: 'OrdenCompra21957',
             session_id: 'sesion1234564',
             amount: total,
-            return_url: 'https://localhost:3001/success'
+            return_url: '/success'
         });
 
         if (response.token) {
