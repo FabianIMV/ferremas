@@ -19,6 +19,7 @@ import { CartContext } from './components/Cart/CartContext';
 import CreditCardPayment from './components/WebpayCards/CreditCardPayment';
 import DebitCardPayment from './components/WebpayCards/DebitCardPayment';
 import WebpayCards from './components/WebpayCards/WebpayCards'; 
+import Success from './components/Success/Success';
 
 function App() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -77,6 +78,7 @@ function App() {
               <Route path="/webpaycards" element={<WebpayCards />} />
               <Route path="/creditcardpayment" element={<CreditCardPayment />} />
               <Route path="/debitcardpayment" element={<DebitCardPayment />} />
+              <Route path="/success" element={<Success />} />
             </Routes>
             <Button className="subscribe-button" onClick={handleShowNewsletter}>Suscríbete</Button>
             <Modal show={showNewsletter} onHide={handleCloseNewsletter}>
