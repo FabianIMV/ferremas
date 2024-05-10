@@ -6,6 +6,38 @@ import Cart from '../Cart/Cart';
 import CartContext from '../Cart/CartContext';
 import './Checkout.css';
 
+import { Lambda, config } from 'aws-sdk';
+
+config.update({
+  region: 'us-east-1',
+  accessKeyId: 'AKIAY4QIKKWUDHQWUEWL',
+  secretAccessKey: '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',
+});
+
+async function initiateWebpayTransaction(body) {
+    console.log('enviando solicitud a lambda: ', body)
+
+    const lambda = new Lambda();
+
+    const params = {
+        FunctionName: 'intermediario-webpay',
+        InvocationType: 'RequestResponse',
+        Payload: JSON.stringify({body}),
+    };
+
+    const response = await lambda.invoke(params).promise();
+
+    if (!response.Payload) {
+        throw new Error('No se pudo obtener la respuesta de Lambda');
+    }
+
+    console.log('Respuesta de Lambda recibida', response.Payload);
+
+    const responseBody = JSON.parse(response.Payload).body;
+
+    return responseBody;
+}
+
 const Checkout = () => {
     const { isAuthenticated } = useContext(AuthContext);
     const [showTransferDetails, setShowTransferDetails] = useState(false);
@@ -18,23 +50,28 @@ const Checkout = () => {
     const formRef = useRef(null);
 
     const handleWebpayClick = async () => {
+        console.log('iniciando transaccion')
         const response = await initiateWebpayTransaction({
-            buy_order: 'OrdenCompra21957',
+            buy_order: 'Orden21957',
             session_id: 'sesion1234564',
             amount: total,
-            return_url: '/success'
+            return_url: 'https://ferremas.vercel.app/success'
         });
-
-        if (response.token) {
+        console.log('respuesta de webpay recibida:', response)
+        if (response && response.token) {
+            const token = response.token;
+            console.log('Token recibido', token);
+        
             if (formRef.current) {
-                formRef.current.token_ws.value = response.token;
+                console.log('Enviando formulario con token');
+                formRef.current.elements['token_ws'].value = token;
                 formRef.current.submit();
+            } else {
+                console.log('formRef.current es null o undefined');
             }
         } else {
             console.error('No se pudo obtener el token de Webpay');
         }
-
-        console.log(response);
     };
 
     return (
@@ -51,15 +88,13 @@ const Checkout = () => {
                             <Button variant="primary" onClick={handleTransferClick}>
                                 Pagar con transferencia
                             </Button>
-                            <>
-                                <Button variant="primary" onClick={handleWebpayClick}>
-                                    Pagar con Webpay
-                                </Button>
-                                <form ref={formRef} action="https://webpay3gint.transbank.cl/webpayserver/initTransaction" method="POST" style={{ display: 'none' }}>
-                                    <input type="hidden" name="token_ws" />
-                                    <input type="submit" value="Pagar" />
-                                </form>
-                            </>
+                            <Button variant="primary" onClick={handleWebpayClick}>
+                                Pagar con Webpay
+                            </Button>
+                            <form ref={formRef} action="https://webpay3gint.transbank.cl/webpayserver/initTransaction" method="POST" style={{ display: 'none' }}>
+                                <input type="hidden" name="token_ws" />
+                                <input type="submit" value="Pagar" />
+                            </form>
                         </Col>
                     </Row>
 
@@ -87,21 +122,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
-async function initiateWebpayTransaction(body) {
-    const response = await fetch('https://webpay3gint.transbank.cl/rswebpaytransaction/api/webpay/v1.2//transactions', {
-        method: 'POST',
-        headers: {
-            'Tbk-Api-Key-Secret': '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',
-            'Tbk-Api-Key-Id': '597055555532',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    });
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
-}
