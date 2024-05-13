@@ -42,6 +42,7 @@ const Checkout = () => {
     const { isAuthenticated } = useContext(AuthContext);
     const [showTransferDetails, setShowTransferDetails] = useState(false);
     const { total, cartItems } = useContext(CartContext);
+    const discountedTotal = isAuthenticated ? total * 0.8 : total;
 
     const handleTransferClick = () => {
         setShowTransferDetails(!showTransferDetails);
@@ -56,7 +57,7 @@ const Checkout = () => {
         const response = await initiateWebpayTransaction({
             buy_order: buyOrderId,
             session_id: sessionId,
-            amount: total,
+            amount: discountedTotal,
             return_url: 'https://ferremas.vercel.app/success'
         });
         console.log('respuesta de webpay recibida:', response)
@@ -77,7 +78,7 @@ const Checkout = () => {
         <Container>
             <Row>
                 <Col md={6}>
-                    <h2>Total de compra: ${total}</h2>
+                    <h2>Total de compra: ${discountedTotal}</h2>
                     <Cart />
                 </Col>
                 <Col md={6}>
@@ -110,7 +111,7 @@ const Checkout = () => {
                     )}
                     {!isAuthenticated && (
                         <div className="login-discount">
-                            <h3>Iniciar sesión para aplicar descuento</h3>
+                            <h3>Iniciar sesión para aplicar descuento del 20%</h3>
                             <Login className="login-component" showTitle={false} />
                         </div>
                     )}
