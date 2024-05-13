@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import './Success.css';
@@ -6,6 +6,7 @@ import AWS from 'aws-sdk';
 import { Puff as Loader } from 'react-loader-spinner';
 import './Success.css';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import CartContext from '../Cart/CartContext';
 
 AWS.config.update({
   region: 'us-east-1',
@@ -36,6 +37,8 @@ const Success = () => {
   const [authCode, setAuthCode] = useState(null);
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token_ws');
+  const { cart } = useContext(CartContext);
+
 
   useEffect(() => {
     console.log('Invoking lambda with token:', token);
@@ -55,7 +58,7 @@ const Success = () => {
         setLoading(false);
   
         if (result.body.status === 'AUTHORIZED') {
-          for (const product of result.body.products) {
+          for (const product of cart) {
             try {
               await updateStock(product.name, product.quantity);
               console.log('Stock updated for product:', product.name);
@@ -66,7 +69,7 @@ const Success = () => {
         }
       }
     });
-  }, [token]);
+  }, [token, cart]);
 
   if (loading) {
     return (
