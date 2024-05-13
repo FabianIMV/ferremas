@@ -98,10 +98,10 @@ function ProductTable({ products }) {
         <div key={rowIndex} className="row">
           {productRow.map((product) => {
             const imageSrc = images[product.name.toLowerCase()] || images.default;
-
+  
             return (
-              <div key={product.name} className="col" style={{ padding: '10px' }}>
-                <div className="card" style={{ width: '100%', height: '100%' }}>
+              <div key={product.name} className="col">
+                <div className="card">
                   <img src={imageSrc} alt="item" className="card-img-top"></img>
                   <div className="card-body">
                     <h5 className="card-title">{product.name}</h5>
