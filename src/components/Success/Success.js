@@ -15,17 +15,20 @@ const lambda = new AWS.Lambda();
 const Success = () => {
   const [status, setStatus] = useState(null);
   const location = useLocation();
-  const token = new URLSearchParams(location.search).get('token');
+  const token = new URLSearchParams(location.search).get('token_ws');
 
   useEffect(() => {
+    console.log('Invoking lambda with token:', token);
     lambda.invoke({
       FunctionName: 'webpay-transaction-result',
       Payload: JSON.stringify({ token }),
     }, (err, data) => {
       if (err) {
-        console.log(err);
+        console.log('Lambda invocation error:', err);
       } else {
+        console.log('Lambda response:', data);
         const result = JSON.parse(data.Payload);
+        console.log('Lambda result:', result);
         setStatus(result.status);
       }
     });
