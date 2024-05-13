@@ -1,29 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AWS from 'aws-sdk';
+
+AWS.config.update({
+    region: 'us-east-1',
+    accessKeyId: 'AKIAY4QIKKWUDHQWUEWL',
+    secretAccessKey: '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',
+});
+
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const tableName = 'newsletter-db';
 
 const Newsletter = ({handleClose}) => {
-    const [email, setEmail] = useState('');
-    const [show, setShow] = useState(false);
+    const [correo, setcorreo] = useState('');
     const [message, setMessage] = useState('');
+    const [subscribed, setSubscribed] = useState(false); // Nuevo estado
 
-    const closeModal = () => {
-        setShow(false);
-        setMessage('');
+    const isValidcorreo = (correo) => {
+        return correo.includes('@') && correo.includes('.');
     };
 
-    const isValidEmail = (email) => {
-        return email.includes('@') && email.includes('.');
+    const checkcorreoExists = async (correo) => {
+        const params = {
+            TableName: tableName,
+            Key: {
+                "correo": correo
+            }
+        };
+        const result = await dynamoDb.get(params).promise();
+        return result.Item;
     };
 
-    const handleSubmit = (event) => {
+    const addcorreoToDb = async (correo) => {
+        const params = {
+            TableName: tableName,
+            Item: {
+                "correo": correo
+            }
+        };
+        await dynamoDb.put(params).promise();
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        if (isValidEmail(email)) {
-            setMessage(`Gracias por suscribirte, ${email}!`);
-            setEmail('');
-            setTimeout(handleClose, 2000);
+        if (isValidcorreo(correo)) {
+            const exists = await checkcorreoExists(correo);
+            if (exists) {
+                setMessage('Este correo ya está suscriton reintente con otro correo.');
+            } else {
+                await addcorreoToDb(correo);
+                setMessage(`Gracias por suscribirte, ${correo}!`);
+                setSubscribed(true);
+                setcorreo('');
+                setTimeout(handleClose, 2000);
+            }
         } else {
-            setMessage('Por favor, introduce un correo electrónico válido.');
+            setMessage('Por favor, introduce un correo válido.');
         }
     };
 
@@ -38,11 +71,11 @@ const Newsletter = ({handleClose}) => {
                 ) : (
                     <form onSubmit={handleSubmit}>
                         <input
-                            type="email"
+                            type="correo"
                             className="form-control"
                             placeholder="Introduce tu correo electrónico"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
+                            value={correo}
+                            onChange={e => setcorreo(e.target.value)}
                             required
                         />
                     </form>
@@ -52,8 +85,8 @@ const Newsletter = ({handleClose}) => {
                 <Button variant="secondary" onClick={handleClose}>
                     Cerrar
                 </Button>
-                {!message && (
-                    <Button variant="primary" onClick={handleSubmit} disabled={!isValidEmail(email)}>
+                {!subscribed && !message && (
+                    <Button variant="primary" onClick={handleSubmit} disabled={!isValidcorreo(correo)}>
                         Suscribirse
                     </Button>
                 )}
