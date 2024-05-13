@@ -63,6 +63,7 @@ const Checkout = () => {
         if (response && response.token) {
             const token = response.token;
             console.log('Token recibido', token);
+            formRef.current.submit();
         }
     };
 
