@@ -51,8 +51,8 @@ const Checkout = () => {
 
     const handleWebpayClick = async () => {
         console.log('iniciando transaccion')
-        const buyOrderId = Math.floor(Math.random)
-        const sessionId = ('ID'+Math.floor(Math.random))
+        const buyOrderId = Math.floor(Math.random() * 1000000)
+        const sessionId = ('ID'+Math.floor(Math.random() * 1000000))
         const response = await initiateWebpayTransaction({
             buy_order: buyOrderId,
             session_id: sessionId,
@@ -63,16 +63,6 @@ const Checkout = () => {
         if (response && response.token) {
             const token = response.token;
             console.log('Token recibido', token);
-        
-            if (formRef.current) {
-                console.log('Enviando formulario con token');
-                formRef.current.elements['token_ws'].value = token;
-                formRef.current.submit();
-            } else {
-                console.log('formRef.current es null o undefined');
-            }
-        } else {
-            console.error('No se pudo obtener el token de Webpay');
         }
     };
 
