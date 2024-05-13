@@ -87,7 +87,7 @@ const Checkout = () => {
             buy_order: buyOrderId,
             session_id: sessionId,
             amount: total,
-            return_url: 'http://localhost:3000/success'
+            return_url: 'https://ferremas.vercel.app/success'
         });
         console.log('respuesta de webpay recibida:', response)
         if (response && response.token) {
