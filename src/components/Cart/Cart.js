@@ -1,13 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from './CartContext';
+import { AuthContext } from '../../AuthContext';
 import './Cart.css';
 import axios from 'axios';
 import xml2js from 'xml2js';
 
 const Cart = ({ isDropdown, setIsDropdown }) => {
     const [exchangeRate, setExchangeRate] = useState(null);
-    const { cart, setCart,setTotal } = useContext(CartContext);
+    const { cart, setCart, setTotal, setDiscountedTotal } = useContext(CartContext);
+    const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,10 +29,16 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
             });
     }, []);
 
+    const totalPayment = cart.reduce((total, product) => total + product.totalPrice, 0);
+    const discount = isAuthenticated ? totalPayment * 0.2 : 0;
+    const totalAfterDiscount = totalPayment - discount;
+
     useEffect(() => {
-        const totalPayment = cart.reduce((total, product) => total + product.totalPrice, 0);
-        setTotal(totalPayment);
-    }, [cart, setTotal]);
+        if (isAuthenticated) {
+            const discount = totalPayment * 0.2;
+            setDiscountedTotal(totalPayment - discount);
+        }
+    }, [cart, setTotal, isAuthenticated, setDiscountedTotal]);
 
     const addToCart = (productToAdd) => {
         const existingProduct = cart.find(product => product.name === productToAdd.name);
@@ -72,16 +80,10 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
         setCart([]);
     };
 
-    const goToPayment = () => {
-        navigate('/Checkout');
-    };
-
     const handleGoToCart = () => {
         setIsDropdown(false);
         navigate('/checkout')
     }
-    const totalPayment = cart.reduce((total, product) => total + product.totalPrice, 0);
-
 
     return (
         <div className={`cart-component ${isDropdown ? 'cart-dropdown' : ''}`}>
@@ -102,12 +104,22 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                         </div>
                     ))}
                     {!isDropdown && (
-                        <div className="cart-buttons">
-                            <div className="total-payment-container">
-                                <button onClick={cleanCart} className="btn btn-warning clean-cart-button">Vaciar carrito</button>
-                                <strong>Total: ${totalPayment} - USD ${exchangeRate ? Math.round(totalPayment / exchangeRate) : '...'}</strong>
+                        <div className="total-payment-container">
+                            <div className="total-payment-subcontainer">
+                                <strong>Subtotal:</strong>
+                                ${totalPayment} - USD ${exchangeRate ? Math.round(totalPayment / exchangeRate) : '...'}
                             </div>
-
+                            {isAuthenticated && (
+                                <div className="total-payment-subcontainer">
+                                    <strong>Descuento:</strong>
+                                    ${discount} - USD ${exchangeRate ? Math.round(discount / exchangeRate) : '...'}
+                                </div>
+                            )}
+                            <div className="total-payment-subcontainer">
+                                <strong>Total:</strong>
+                                <strong>${totalAfterDiscount} - USD ${exchangeRate ? Math.round(totalAfterDiscount / exchangeRate) : '...'}</strong>
+                            </div>
+                            <button onClick={cleanCart} className="btn btn-warning clean-cart-button">Vaciar carrito</button>
                         </div>
                     )}
                     {isDropdown && (

@@ -10,6 +10,8 @@ export const CartContext = createContext({
     saveCart: () => {},
     total: 0,
     setTotal: () => {},
+    discountedTotal: 0,
+    setDiscountedTotal: () => {},
 });
 
 export const CartProvider = ({ children }) => {
@@ -19,6 +21,7 @@ export const CartProvider = ({ children }) => {
         return localCart ? JSON.parse(localCart) : [];
     });
     const [total, setTotal] = useState(0);
+    const [discountedTotal, setDiscountedTotal] = useState(0);
 
     useEffect(() => {
         const cartWithUniqueId = cart.map(product => ({
@@ -47,7 +50,7 @@ export const CartProvider = ({ children }) => {
     };
 
     return (
-        <CartContext.Provider value={{ isCartOpen, setIsCartOpen, cart, setCart, addToCart, clearCart, saveCart, total, setTotal }}>
+        <CartContext.Provider value={{ isCartOpen, setIsCartOpen, cart, setCart, addToCart, clearCart, saveCart, total, setTotal, discountedTotal, setDiscountedTotal }}>
             {children}
         </CartContext.Provider>
     );

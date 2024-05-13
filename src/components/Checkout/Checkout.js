@@ -41,8 +41,7 @@ async function initiateWebpayTransaction(body) {
 const Checkout = () => {
     const { isAuthenticated } = useContext(AuthContext);
     const [showTransferDetails, setShowTransferDetails] = useState(false);
-    const { total, cartItems } = useContext(CartContext);
-    const discountedTotal = isAuthenticated ? total * 0.8 : total;
+    const { discountedTotal, cartItems } = useContext(CartContext);
 
     const handleTransferClick = () => {
         setShowTransferDetails(!showTransferDetails);
@@ -78,7 +77,7 @@ const Checkout = () => {
         <Container>
             <Row>
                 <Col md={6}>
-                    <h2>Total de compra: ${discountedTotal}</h2>
+                    <h2>Tu carrito</h2>
                     <Cart />
                 </Col>
                 <Col md={6}>
@@ -111,7 +110,6 @@ const Checkout = () => {
                     )}
                     {isAuthenticated && (
                         <div className="discount-applied">
-                            <h3>Descuento aplicado del 20%</h3>
                         </div>
                     )}
                     {!isAuthenticated && (
