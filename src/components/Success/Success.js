@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import './Success.css';
 import AWS from 'aws-sdk';
 import { Puff as Loader } from 'react-loader-spinner';
+import './Success.css';
 
 AWS.config.update({
   region: 'us-east-1',
@@ -40,13 +41,15 @@ const Success = () => {
   if (loading) {
     return (
       <div className="loader-container">
+        <div className="loader">
         <Loader
           type="Puff"
           color="#00BFFF"
           height={100}
           width={100}
-          timeout={3000} //3 secs
+          timeout={3000}
         />
+      </div>
       </div>
     );
   }
