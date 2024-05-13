@@ -5,6 +5,7 @@ import './Success.css';
 import AWS from 'aws-sdk';
 import { Puff as Loader } from 'react-loader-spinner';
 import './Success.css';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 AWS.config.update({
   region: 'us-east-1',
@@ -65,6 +66,7 @@ const Success = () => {
           <div className="text-center">
             {status === 'AUTHORIZED' ? (
               <>
+              <FaCheckCircle size={50} color="green" /> 
                 <h2>¡Compra Exitosa!</h2>
                 <p>Gracias por tu compra. Tu pedido está siendo procesado y te llegará pronto.
                 </p>
@@ -73,6 +75,7 @@ const Success = () => {
               </>
             ) : (
               <>
+              <FaTimesCircle size={50} color="red"/>
                 <h2>Algo salió mal</h2>
                 <p>Por favor, intenta realizar la compra de nuevo.</p>
               </>
