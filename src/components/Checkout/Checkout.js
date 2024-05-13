@@ -63,7 +63,13 @@ const Checkout = () => {
         if (response && response.token) {
             const token = response.token;
             console.log('Token recibido', token);
-            formRef.current.submit();
+            if (formRef.current) {
+                console.log('Enviando formulario con token');
+                formRef.current.elements['token_ws'].value = token;
+                formRef.current.submit();
+            } else {
+                console.log('formRef.current es null o undefined');
+            }
         }
     };
 
