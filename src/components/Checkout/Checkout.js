@@ -38,36 +38,6 @@ async function initiateWebpayTransaction(body) {
     return responseBody;
 }
 
-async function updateStock(name, quantity) {
-    console.log('Actualizando stock: ', name, quantity)
-
-    const lambda = new Lambda();
-
-    const params = {
-        FunctionName: 'manejaStock',
-        InvocationType: 'RequestResponse',
-        Payload: JSON.stringify({name, quantity}),
-    };
-
-    console.log('Invocando Lambda con los siguientes parámetros:', params);
-
-    let response;
-    try {
-        response = await lambda.invoke(params).promise();
-    } catch (error) {
-        console.error('Error al invocar Lambda:', error);
-        throw error;
-    }
-
-    console.log('Respuesta de Lambda recibida:', response);
-
-    if (!response.Payload) {
-        throw new Error('No se pudo obtener la respuesta de Lambda para actualizar el stock');
-    }
-
-    console.log('Respuesta de Lambda para actualizar el stock recibida', response.Payload);
-}
-
 const Checkout = () => {
     const { isAuthenticated } = useContext(AuthContext);
     const [showTransferDetails, setShowTransferDetails] = useState(false);
@@ -98,10 +68,6 @@ const Checkout = () => {
                 console.log('Enviando formulario con token');
                 formRef.current.elements['token_ws'].value = token;
                 formRef.current.submit();
-
-                for (const item of cartItems) {
-                    await updateStock(item.name, item.quantity);
-                }
             } else {
                 console.log('formRef.current es null o undefined');
             }

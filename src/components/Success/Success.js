@@ -15,6 +15,20 @@ AWS.config.update({
 
 const lambda = new AWS.Lambda();
 
+async function updateStock(name, quantity) {
+  const params = {
+    FunctionName: 'manejaStock',
+    Payload: JSON.stringify({ name, quantity }),
+  };
+
+  try {
+    const response = await lambda.invoke(params).promise();
+    console.log('Stock updated for product:', name);
+  } catch (error) {
+    console.log('Error updating stock for product:', name, error);
+  }
+}
+
 const Success = () => {
   const [status, setStatus] = useState(null);
   const [buyOrder, setBuyOrder] = useState(null);
@@ -28,7 +42,7 @@ const Success = () => {
     lambda.invoke({
       FunctionName: 'webpay-transaction-result',
       Payload: JSON.stringify({ token }),
-    }, (err, data) => {
+    }, async (err, data) => {
       if (err) {
         console.log('Lambda invocation error:', err);
       } else {
@@ -41,21 +55,14 @@ const Success = () => {
         setLoading(false);
   
         if (result.body.status === 'AUTHORIZED') {
-          result.body.products.forEach(product => {
-            lambda.invoke({
-              FunctionName: 'manejaStock',
-              Payload: JSON.stringify({
-                name: product.name,
-                quantity: product.quantity
-              }),
-            }, (err, data) => {
-              if (err) {
-                console.log('Lambda invocation error:', err);
-              } else {
-                console.log('Stock updated for product:', product.name);
-              }
-            });
-          });
+          for (const product of result.body.products) {
+            try {
+              await updateStock(product.name, product.quantity);
+              console.log('Stock updated for product:', product.name);
+            } catch (error) {
+              console.log('Error updating stock for product:', product.name, error);
+            }
+          }
         }
       }
     });
