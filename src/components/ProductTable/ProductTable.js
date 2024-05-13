@@ -40,6 +40,8 @@ function ProductTable({ products }) {
 
   const { cart, setCart, setIsCartOpen } = useContext(CartContext);
 
+  const [productQuantities, setProductQuantities] = useState({});
+
   useEffect(() => {
     axios.get('https://api.cmfchile.cl/api-sbifv3/recursos_api/dolar?apikey=ab7f92c29c235cc96ef34099b8ba9cea5731ad2a&formato=xml')
     .then(response => {
@@ -74,9 +76,10 @@ function ProductTable({ products }) {
     productRows.push(products.slice(i, i + 3));
   }
 
-  const handleAddToCart = (product, quantity) => {
+  const handleAddToCart = (product) => {
+    const quantity = productQuantities[product.name] || 1;
     const existingProduct = cart.find(p => p.name === product.name);
-  
+
     if (existingProduct) {
       const updatedCart = cart.map(p =>
         p.name === product.name
@@ -88,8 +91,22 @@ function ProductTable({ products }) {
       const updatedProduct = { ...product, stock: product.stock - quantity, price: product.price };
       setCart(prevCart => [...prevCart, { ...updatedProduct, quantity, totalPrice: quantity * product.price }]);
     }
-  
+
     setIsCartOpen(true);
+  };
+
+  const handleIncreaseQuantity = (productName) => {
+    setProductQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [productName]: (prevQuantities[productName] || 1) + 1,
+    }));
+  };
+
+  const handleDecreaseQuantity = (productName) => {
+    setProductQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [productName]: Math.max(1, (prevQuantities[productName] || 1) - 1),
+    }));
   };
 
   return (
@@ -98,6 +115,7 @@ function ProductTable({ products }) {
         <div key={rowIndex} className="row">
           {productRow.map((product) => {
             const imageSrc = images[product.name.toLowerCase()] || images.default;
+            const quantity = productQuantities[product.name] || 1;
   
             return (
               <div key={product.name} className="col">
@@ -107,10 +125,12 @@ function ProductTable({ products }) {
                     <h5 className="card-title">{product.name}</h5>
                     <p className="card-text">{exchangeRate && `${product.price} - USD ${Math.round(product.price / exchangeRate)}`}</p>
                     <p className="card-text">Stock: {product.stock}</p>     
-                    <div className="buttonsproducttable">           
-                    <button className="btn btn-outline-secondary" onClick={() => handleAddToCart(product, 1)}>Agregar al carrito</button>
-                    <button className="btn btn-outline-secondary">Comprar ahora</button>
-                  </div>
+                    <div className="buttonsproducttable"> 
+                      <button className="btn btn-outline-secondary" onClick={() => handleDecreaseQuantity(product.name)}>-</button>
+                      <span>{quantity}</span>
+                      <button className="btn btn-outline-secondary" onClick={() => handleIncreaseQuantity(product.name)}>+</button>          
+                      <button className="btn btn-outline-secondary" onClick={() => handleAddToCart(product)}>Agregar al carrito</button>
+                    </div>
                   </div>
                 </div>
               </div>
