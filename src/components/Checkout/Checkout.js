@@ -41,7 +41,8 @@ async function initiateWebpayTransaction(body) {
 const Checkout = () => {
     const { isAuthenticated } = useContext(AuthContext);
     const [showTransferDetails, setShowTransferDetails] = useState(false);
-    const { discountedTotal, cartItems } = useContext(CartContext);
+    const { total, discountedTotal, cartItems } = useContext(CartContext);
+    
 
     const handleTransferClick = () => {
         setShowTransferDetails(!showTransferDetails);
@@ -53,10 +54,11 @@ const Checkout = () => {
         console.log('iniciando transaccion')
         const buyOrderId = Math.floor(Math.random() * 1000000)
         const sessionId = ('ID' + Math.floor(Math.random() * 1000000))
+        const amount = isAuthenticated ? discountedTotal : total;
         const response = await initiateWebpayTransaction({
             buy_order: buyOrderId,
             session_id: sessionId,
-            amount: discountedTotal,
+            amount: amount,
             return_url: 'https://ferremas.vercel.app/success'
         });
         console.log('respuesta de webpay recibida:', response)

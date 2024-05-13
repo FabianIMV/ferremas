@@ -32,7 +32,7 @@ export const CartProvider = ({ children }) => {
     }, [cart]);
 
     useEffect(() => {
-        const totalPayment = cart.reduce((total, product) => total + product.price, 0);
+        const totalPayment = cart.reduce((total, product) => total + product.price * (product.quantity || 1), 0);
         setTotal(totalPayment);
     }, [cart]);
 
