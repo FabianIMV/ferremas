@@ -39,7 +39,17 @@ const Success = () => {
   const token = new URLSearchParams(location.search).get('token_ws');
   const { cart, setCart } = useContext(CartContext);
 
-
+  const updateStockAndClearCart = async () => {
+    for (const product of cart) {
+      try {
+        await updateStock(product.name, product.quantity);
+        console.log('Stock updated for product:', product.name);
+      } catch (error) {
+        console.log('Error updating stock for product:', product.name, error);
+      }
+    }
+    setCart([]);
+  };
   useEffect(() => {
     console.log('Invoking lambda with token:', token);
     lambda.invoke({
@@ -58,19 +68,11 @@ const Success = () => {
         setLoading(false);
   
         if (result.body.status === 'AUTHORIZED') {
-          for (const product of cart) {
-            try {
-              await updateStock(product.name, product.quantity);
-              console.log('Stock updated for product:', product.name);
-            } catch (error) {
-              console.log('Error updating stock for product:', product.name, error);
-            }
-          }
-          setCart([]);
+          updateStockAndClearCart();
         }
       }
     });
-  }, [token, cart, setCart]);
+  }, [token]);
 
   if (loading) {
     return (
