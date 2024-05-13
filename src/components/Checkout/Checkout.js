@@ -81,8 +81,9 @@ const Checkout = () => {
 
     const handleWebpayClick = async () => {
         console.log('iniciando transaccion')
+        const buyOrderId = Math.floor(Math.random)
         const response = await initiateWebpayTransaction({
-            buy_order: 'Orden21957',
+            buy_order: buyOrderId,
             session_id: 'sesion1234564',
             amount: total,
             return_url: 'https://ferremas.vercel.app/success'
