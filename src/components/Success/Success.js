@@ -37,7 +37,7 @@ const Success = () => {
   const [authCode, setAuthCode] = useState(null);
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token_ws');
-  const { cart } = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
 
 
   useEffect(() => {
@@ -66,10 +66,11 @@ const Success = () => {
               console.log('Error updating stock for product:', product.name, error);
             }
           }
+          setCart([]);
         }
       }
     });
-  }, [token, cart]);
+  }, [token, cart, setCart]);
 
   if (loading) {
     return (
