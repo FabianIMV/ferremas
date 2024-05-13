@@ -9,9 +9,9 @@ import './Checkout.css';
 import { Lambda, config } from 'aws-sdk';
 
 config.update({
-  region: 'us-east-1',
-  accessKeyId: 'AKIAY4QIKKWUDHQWUEWL',
-  secretAccessKey: '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',
+    region: 'us-east-1',
+    accessKeyId: 'AKIAY4QIKKWUDHQWUEWL',
+    secretAccessKey: '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',
 });
 
 async function initiateWebpayTransaction(body) {
@@ -22,7 +22,7 @@ async function initiateWebpayTransaction(body) {
     const params = {
         FunctionName: 'intermediario-webpay',
         InvocationType: 'RequestResponse',
-        Payload: JSON.stringify({body}),
+        Payload: JSON.stringify({ body }),
     };
 
     const response = await lambda.invoke(params).promise();
@@ -53,7 +53,7 @@ const Checkout = () => {
     const handleWebpayClick = async () => {
         console.log('iniciando transaccion')
         const buyOrderId = Math.floor(Math.random() * 1000000)
-        const sessionId = ('ID'+Math.floor(Math.random() * 1000000))
+        const sessionId = ('ID' + Math.floor(Math.random() * 1000000))
         const response = await initiateWebpayTransaction({
             buy_order: buyOrderId,
             session_id: sessionId,
@@ -107,6 +107,11 @@ const Checkout = () => {
                             <p>Cuenta Corriente</p>
                             <p>0065-3234-1122</p>
                             <p>contacto@ferremas.cl</p>
+                        </div>
+                    )}
+                    {isAuthenticated && (
+                        <div className="discount-applied">
+                            <h3>Descuento aplicado del 20%</h3>
                         </div>
                     )}
                     {!isAuthenticated && (
