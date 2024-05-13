@@ -82,11 +82,12 @@ const Checkout = () => {
     const handleWebpayClick = async () => {
         console.log('iniciando transaccion')
         const buyOrderId = Math.floor(Math.random)
+        const sessionId = ('ID'+Math.floor(Math.random))
         const response = await initiateWebpayTransaction({
             buy_order: buyOrderId,
-            session_id: 'sesion1234564',
+            session_id: sessionId,
             amount: total,
-            return_url: 'https://ferremas.vercel.app/success'
+            return_url: 'http://localhost:3000/success'
         });
         console.log('respuesta de webpay recibida:', response)
         if (response && response.token) {
