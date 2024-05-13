@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import './Success.css';
 import AWS from 'aws-sdk';
+import { Puff as Loader } from 'react-loader-spinner';
 
 AWS.config.update({
   region: 'us-east-1',
@@ -14,6 +15,7 @@ const lambda = new AWS.Lambda();
 
 const Success = () => {
   const [status, setStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token_ws');
 
@@ -29,10 +31,25 @@ const Success = () => {
         console.log('Lambda response:', data);
         const result = JSON.parse(data.Payload);
         console.log('Lambda result:', result);
-        setStatus(result.status);
+        setStatus(result.body.status);
+        setLoading(false);
       }
     });
   }, [token]);
+
+  if (loading) {
+    return (
+      <div className="loader-container">
+        <Loader
+          type="Puff"
+          color="#00BFFF"
+          height={100}
+          width={100}
+          timeout={3000} //3 secs
+        />
+      </div>
+    );
+  }
 
   return (
     <Container>
