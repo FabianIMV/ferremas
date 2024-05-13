@@ -111,7 +111,7 @@ const Cart = ({ isDropdown, setIsDropdown }) => {
                             </div>
                             {isAuthenticated && (
                                 <div className="total-payment-subcontainer">
-                                    <strong>Descuento:</strong>
+                                    <strong>Descuento 20%:</strong>
                                     ${discount} - USD ${exchangeRate ? Math.round(discount / exchangeRate) : '...'}
                                 </div>
                             )}
