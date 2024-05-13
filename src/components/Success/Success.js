@@ -39,6 +39,24 @@ const Success = () => {
         setBuyOrder(result.body.buy_order);
         setAuthCode(result.body.authorization_code);
         setLoading(false);
+  
+        if (result.body.status === 'AUTHORIZED') {
+          result.body.products.forEach(product => {
+            lambda.invoke({
+              FunctionName: 'manejaStock',
+              Payload: JSON.stringify({
+                name: product.name,
+                quantity: product.quantity
+              }),
+            }, (err, data) => {
+              if (err) {
+                console.log('Lambda invocation error:', err);
+              } else {
+                console.log('Stock updated for product:', product.name);
+              }
+            });
+          });
+        }
       }
     });
   }, [token]);
