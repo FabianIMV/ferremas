@@ -16,7 +16,9 @@ const lambda = new AWS.Lambda();
 
 const Success = () => {
   const [status, setStatus] = useState(null);
+  const [buyOrder, setBuyOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authCode, setAuthCode] = useState(null);
   const location = useLocation();
   const token = new URLSearchParams(location.search).get('token_ws');
 
@@ -33,6 +35,8 @@ const Success = () => {
         const result = JSON.parse(data.Payload);
         console.log('Lambda result:', result);
         setStatus(result.body.status);
+        setBuyOrder(result.body.buy_order);
+        setAuthCode(result.body.authorization_code);
         setLoading(false);
       }
     });
@@ -62,7 +66,10 @@ const Success = () => {
             {status === 'AUTHORIZED' ? (
               <>
                 <h2>¡Compra Exitosa!</h2>
-                <p>Gracias por tu compra. Tu pedido está siendo procesado y te llegará pronto.</p>
+                <p>Gracias por tu compra. Tu pedido está siendo procesado y te llegará pronto.
+                </p>
+                <p>N° Orden de compra: {buyOrder}</p>
+                <p>Codigo de autorización: {authCode}</p>
               </>
             ) : (
               <>
