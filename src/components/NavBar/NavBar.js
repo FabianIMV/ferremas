@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './NavBar.css';
 import logo from './logoferremas.svg';
 import user from './user.svg';
@@ -8,10 +8,11 @@ import { AuthContext } from '../../AuthContext';
 import  {CartContext}  from '../Cart/CartContext';
 import Cart from '../Cart/Cart';
 
-const NavBar = ({ setKey, handleSearch, resetAppState }) => {
+const NavBar = ({ setKey, handleSearch, resetAppState, setShowBackButtonGeneral }) => {
     const { isAuthenticated, logout } = useContext(AuthContext);
     const { isCartOpen, setIsCartOpen } = useContext(CartContext);
     const [showButtons, setShowButtons] = useState(false);
+    const location = useLocation();
     const searchInput = useRef();
     const dropdownRef = useRef();
 
@@ -21,6 +22,11 @@ const NavBar = ({ setKey, handleSearch, resetAppState }) => {
         handleSearch('');
         resetAppState();
     };
+    useEffect(() => {
+        if (location.pathname === '/checkout') {
+          setShowBackButtonGeneral(true);
+        }
+      }, [location]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
