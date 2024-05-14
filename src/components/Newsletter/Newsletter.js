@@ -47,7 +47,7 @@ const Newsletter = ({handleClose}) => {
         if (isValidcorreo(correo)) {
             const exists = await checkcorreoExists(correo);
             if (exists) {
-                setMessage('Este correo ya está suscriton reintente con otro correo.');
+                setMessage('Este correo ya está suscrito, reintente con otro correo.');
             } else {
                 await addcorreoToDb(correo);
                 setMessage(`Gracias por suscribirte, ${correo}!`);
