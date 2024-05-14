@@ -22,9 +22,9 @@ Modúlo Home que llama a los componentes Navbar y ProductTable, usandolos para l
 
 ![Imagen del Home](./public/home.png)
 
-![Busqueda de Producto](./pubic/busquedaproducto.png)
+![Busqueda de Producto](./public/busquedaproducto.png)
 
-![Click en Categorías](./pubic/clickcategorias.png)
+![Click en Categorías](./public/clickcategorias.png)
 
 ![Lambda](./public/lambda.png)
 
