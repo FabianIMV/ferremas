@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import BackButton from '../BackButton/BackButton';
 import {CartContext}  from '../Cart/CartContext';
 import alicate from './alicate.webp';
 import serrucho from './serrucho.webp';
@@ -34,14 +35,19 @@ const images = {
   default: item,
 };
 
-function ProductTable({ products }) {
+function ProductTable({ products, toggleBackButtonGeneral }) {
   const [exchangeRate, setExchangeRate] = useState(null);
   const [error, setError] = useState(null);
 
   const { cart, setCart, setIsCartOpen } = useContext(CartContext);
 
   const [productQuantities, setProductQuantities] = useState({});
-
+  useEffect(() => {
+    toggleBackButtonGeneral();
+    return () => {
+      toggleBackButtonGeneral();
+    };
+  }, []);
   useEffect(() => {
     axios.get('https://api.cmfchile.cl/api-sbifv3/recursos_api/dolar?apikey=ab7f92c29c235cc96ef34099b8ba9cea5731ad2a&formato=xml')
     .then(response => {
@@ -111,6 +117,7 @@ function ProductTable({ products }) {
 
   return (
     <div>
+      <BackButton />
       {productRows.map((productRow, rowIndex) => (
         <div key={rowIndex} className="row">
           {productRow.map((product) => {
