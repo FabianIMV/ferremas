@@ -2,6 +2,7 @@ import './App.css';
 import React, { useContext, useState, useEffect } from 'react';
 import NavBar from './components/NavBar/NavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useLocation } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Signup from './components/SignUp/Signup';
@@ -76,7 +77,7 @@ function App() {
       <CartProvider>
         <Router>
           <div className="App">
-            <NavBar setKey={setKey} handleSearch={handleSearch} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart} handleShowNewsletter={handleShowNewsletter} />
+            <NavBar setShowBackButtonGeneral={setShowBackButtonGeneral} setKey={setKey} handleSearch={handleSearch} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} cart={cart} handleShowNewsletter={handleShowNewsletter} />
             {showBackButtonGeneral && <BackButtonGeneral />}
             <Routes>
               <Route path="/login" element={<Login />} />
@@ -107,6 +108,14 @@ function Home({ addToCart, products, setProducts, handleSearch, showCarousel, se
   const { isAuthenticated, username } = useContext(AuthContext);
   const [searchMessage, setSearchMessage] = useState('');
   const [showBackButtonGeneral, setShowBackButtonGeneral] = useState(true);
+  const location = useLocation();
+
+useEffect(() => {
+  if (location.pathname === '/checkout') {
+    setShowBackButtonGeneral(true);
+  } else {
+  }
+}, [location]);
 
 
 
