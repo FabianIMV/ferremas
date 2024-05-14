@@ -4,6 +4,7 @@ import { AuthContext } from '../../AuthContext';
 import Login from '../Login/Login';
 import Cart from '../Cart/Cart';
 import CartContext from '../Cart/CartContext';
+import {useNavigate} from 'react-router-dom';
 import './Checkout.css';
 
 import { Lambda, config } from 'aws-sdk';
@@ -40,6 +41,7 @@ async function initiateWebpayTransaction(body) {
 
 const Checkout = () => {
     const { isAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [showTransferDetails, setShowTransferDetails] = useState(false);
     const { total, discountedTotal, cartItems } = useContext(CartContext);
     
@@ -47,6 +49,10 @@ const Checkout = () => {
     const handleTransferClick = () => {
         setShowTransferDetails(!showTransferDetails);
     };
+
+    const handleLogin = () => {
+        navigate('/checkout');
+    }
 
     const formRef = useRef(null);
 
@@ -117,7 +123,7 @@ const Checkout = () => {
                     {!isAuthenticated && (
                         <div className="login-discount">
                             <h3>Iniciar sesión para aplicar descuento del 20%</h3>
-                            <Login className="login-component" showTitle={false} />
+                            <Login className="login-component" showTitle={false} onLogin={handleLogin} />
                         </div>
                     )}
                 </Col>
