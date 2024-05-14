@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Login.css';
 import { CognitoUser, AuthenticationDetails, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { AuthContext } from '../../AuthContext';
@@ -7,6 +7,7 @@ import Alert from 'react-bootstrap/Alert';
 
 const Login = ({showTitle = true}) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { setIsAuthenticated, setUsername: setAuthUsername } = useContext(AuthContext);
     const [errorMessage, setErrorMessage] = useState('');
     const [message, setMessage] = useState('');
@@ -49,7 +50,11 @@ const Login = ({showTitle = true}) => {
                         setIsAuthenticated(true);
                         setAuthUsername(username);
                         setTimeout(() => {
-                            navigate(`/`);
+                            if (location.pathname === '/checkout') {
+                                navigate('/checkout');
+                            } else {
+                                navigate('/');
+                            }
                         }, 2000);
                         resolve();
                     },
