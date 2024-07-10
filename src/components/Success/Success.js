@@ -10,8 +10,8 @@ import CartContext from '../Cart/CartContext';
 
 AWS.config.update({
   region: 'us-east-1',
-  accessKeyId: 'AKIAY4QIKKWUDHQWUEWL',
-  secretAccessKey: '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',
+  accessKeyId: process.env.ACCESS_KEY_ID,
+  secretAccessKey: process.env.SECRET_ACCESS_KEY,
 });
 
 const lambda = new AWS.Lambda();
