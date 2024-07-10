@@ -31,11 +31,11 @@ Este proyecto se construyó utilizando una variedad de tecnologías líderes en 
 - **Node.js**: Entorno de ejecución para JavaScript utilizado en el servidor back-end, permitiendo una construcción eficiente de aplicaciones en red escalables.
 - **AWS SDK**: Kit de desarrollo de software que facilita la conexión y el uso de los servicios de Amazon Web Services, permitiendo una integración eficiente y segura con la infraestructura en la nube.
 - **AWS Cognito**: Servicio de AWS utilizado para el registro de usuarios y manejo de sesiones, asegurando una gestión de identidades y acceso seguro.
-*Para ver imagen del recurso detallado visita [este enlace](./public/cognito.png)_.*
+*Para ver imagen del recurso detallado visita [este enlace](./public/cognito.png).*
 - **AWS Lambda**: Servicio de computación sin servidor que ejecuta código en respuesta a eventos, utilizado aquí para manejar peticiones back-end, especialmente consultas a DynamoDB.
-*Para ver imagen del recurso detallado visita [este enlace](./public/lambdas.png)_.*
+*Para ver imagen del recurso detallado visita [este enlace](./public/lambdas.png).*
 - **DynamoDB**: Base de datos NoSQL ofrecida por AWS, utilizada para almacenar los datos de los productos de la ferretería y la información de contacto de los usuarios suscritos al newsletter.
-*Para ver imagen del recurso detallado visita [este enlace](./public/dynamodb.png)_.*
+*Para ver imagen del recurso detallado visita [este enlace](./public/dynamodb.png).*
 - **GitHub**: Plataforma de desarrollo colaborativo utilizada para el control de versiones y el almacenamiento del código fuente del proyecto.
 - **Vercel**: Plataforma de despliegue y CDN, utilizada para el alojamiento y la entrega rápida de contenido del front-end.
 - **Webpay API**: API de pago integrada para procesar transacciones financieras de manera segura dentro de la aplicación.
