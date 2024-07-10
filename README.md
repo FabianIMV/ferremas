@@ -107,6 +107,6 @@ Se levanta el aplicativo y se puede visualizar en cualquier navegador de escrito
 
 ## Como levantar la aplicación en ambiente de producción
 
-Acceder directamente a la URl de producción [https://ferremas.vercel.app/](https://ferremas.vercel.app/)
+Acceder directamente a la URL de producción [https://ferremas.vercel.app/](https://ferremas.vercel.app/)
 
 ---
