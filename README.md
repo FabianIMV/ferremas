@@ -18,7 +18,7 @@ El proyecto implementa una app de e-commerce para la ferretería y distribuidora
 ![Logo Ferremás](https://ferremas.vercel.app/static/media/logoferremas.ec0d9dbd910783e34e013bf79f999af4.svg)
 
 ## Diagrama de Arquitectura
-![Diagrama de Arquitectura](./public/diagramadearquitectura.png)
+![Diagrama de Arquitectura](./public/diagramaarquitectura.png)
 ...
 
 ---
